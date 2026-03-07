@@ -1,0 +1,197 @@
+---
+import { SERVICES_CONTENT } from '../../../data/our-services-data';
+---
+
+<section class="services-section" aria-labelledby="services-title">
+  <div class="container">
+    <h2 id="services-title" class="section-title">{SERVICES_CONTENT.title}</h2>
+
+    <div class="branches-grid">
+      {SERVICES_CONTENT.branches.map((branch) => (
+        <div class="branch-column">
+          <!-- Branch Header -->
+          <div class="branch-header">
+            <h3 class="branch-name">{branch.name}</h3>
+            <p class="branch-address">{branch.address}</p>
+          </div>
+
+          <!-- Service Card (Carousel Mockup) -->
+          <div class="service-card">
+            <button type="button" class="nav-arrow left-arrow" aria-label="Previous Service">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+
+            <div class="card-content">
+              <div class="icon-wrapper" set:html={branch.service.icon} />
+              <h4 class="service-title">{branch.service.title}</h4>
+            </div>
+
+            <button type="button" class="nav-arrow right-arrow" aria-label="Next Service">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* COLORS & TOKENS */
+  :root {
+    --color-bg-cream: #f6f0e6;
+    --color-card-beige: #e9e0cd;
+    --color-text-green: #1a432b;
+    --color-text-gold: #c39b4b;
+    --color-arrow-bg: #afa890;
+  }
+
+  .services-section {
+    background-color: var(--color-bg-cream);
+    padding: 5rem 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: var(--color-text-green);
+    text-align: center;
+    margin: 0 0 4rem 0;
+  }
+
+  .branches-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .branches-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .branch-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .branch-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    min-height: 80px;
+  }
+
+  .branch-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text-gold);
+    margin: 0 0 0.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .branch-address {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color-text-gold);
+    margin: 0;
+    line-height: 1.4;
+    white-space: pre-line;
+  }
+
+  .service-card {
+    position: relative;
+    background-color: var(--color-card-beige);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .icon-wrapper {
+    width: 100px;
+    height: 100px;
+    color: var(--color-text-green);
+  }
+
+  .icon-wrapper :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-text-green);
+    margin: 0;
+    line-height: 1.2;
+    white-space: pre-line;
+  }
+
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-arrow-bg);
+    color: var(--color-text-green);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    z-index: 2;
+  }
+
+  .nav-arrow:hover {
+    background-color: #989178;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .nav-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .left-arrow {
+    left: -16px;
+  }
+
+  .right-arrow {
+    right: -16px;
+  }
+
+  @media (max-width: 400px) {
+    .left-arrow {
+      left: -10px;
+    }
+    .right-arrow {
+      right: -10px;
+    }
+  }
+</style>

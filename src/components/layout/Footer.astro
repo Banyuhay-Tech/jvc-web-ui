@@ -1,0 +1,36 @@
+---
+import { LOGO_URL, COLORS, QUICK_LINKS } from '../../constants';
+---
+
+<footer class="text-white pt-12 pb-8 font-sans" style={{ backgroundColor: COLORS.blue.navy }}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
+      <div>
+        <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-white">
+          <img src={LOGO_URL} alt="Jamir Veterinary Clinic" class="h-10 w-auto" />
+          Jamir Veterinary Clinic
+        </h3>
+        <p class="text-blue-100 text-sm leading-relaxed">
+          Compassionate care for pets and peace of mind for pet owners. Two branches in Kawit and Imus.
+        </p>
+      </div>
+      <div>
+        <h4 class="text-sm font-bold mb-4 uppercase tracking-wide" style={{ color: COLORS.green }}>Quick Links</h4>
+        <ul class="space-y-2 text-blue-100">
+          {QUICK_LINKS.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-white transition-colors">{item.name}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-bold mb-4 uppercase tracking-wide" style={{ color: COLORS.green }}>Contact</h4>
+        <p class="text-blue-100 text-sm">Visit our Kawit or Imus branch for appointments and inquiries.</p>
+      </div>
+    </div>
+    <div class="border-t border-blue-800 pt-6 text-center text-blue-200 text-sm">
+      &copy; {new Date().getFullYear()} Jamir Veterinary Clinic. All rights reserved.
+    </div>
+  </div>
+</footer>

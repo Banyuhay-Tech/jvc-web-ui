@@ -1,0 +1,170 @@
+---
+import { GALLERY_CONTENT } from '../../../data/pet-gallery-data';
+
+const activeImage = GALLERY_CONTENT.images[0];
+---
+
+<section class="pet-gallery-section" aria-labelledby="pet-gallery-title">
+  <div class="container">
+    <div class="content-wrapper">
+      <!-- Left Column: Image & Carousel Dots -->
+      <div class="image-column">
+        <div class="image-wrapper">
+          <img
+            src={activeImage.src}
+            alt={activeImage.alt}
+            class="gallery-image"
+            loading="lazy"
+            width="550"
+            height="413"
+          />
+        </div>
+
+        <!-- Static Carousel Dots Mockup -->
+        <div class="carousel-dots">
+          <span class="dot active" aria-current="true"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+      <!-- Right Column: Text Content -->
+      <div class="text-column">
+        <div class="icon-wrapper" set:html={GALLERY_CONTENT.icon} />
+        <h2 id="pet-gallery-title" class="section-title">
+          {GALLERY_CONTENT.title}
+        </h2>
+        <p class="section-description">{GALLERY_CONTENT.description}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* COLORS & TOKENS */
+  :root {
+    --color-bg-cream: #f6f0e6;
+    --color-text-green: #0a4d2c;
+    --color-gold-dots: #b8862d;
+  }
+
+  .pet-gallery-section {
+    background-color: var(--color-bg-cream);
+    padding: 5rem 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (min-width: 800px) {
+    .content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 5rem;
+    }
+  }
+
+  /* LEFT COLUMN (IMAGE) */
+  .image-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+  }
+
+  .image-wrapper {
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-gold-dots);
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .dot.active {
+    opacity: 1;
+  }
+
+  /* RIGHT COLUMN (TEXT) */
+  .text-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 450px;
+  }
+
+  .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    color: var(--color-text-green);
+    margin-bottom: 1rem;
+    transform: rotate(5deg);
+  }
+
+  .icon-wrapper :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .section-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 800;
+    color: var(--color-text-green);
+    margin: 0 0 1rem 0;
+    line-height: 1.1;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text-green);
+    margin: 0;
+  }
+
+  @media (max-width: 799px) {
+    .content-wrapper {
+      gap: 3rem;
+    }
+    .icon-wrapper {
+      width: 60px;
+      height: 60px;
+    }
+  }
+</style>

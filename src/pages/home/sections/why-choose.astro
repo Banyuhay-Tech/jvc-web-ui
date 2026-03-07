@@ -1,0 +1,145 @@
+---
+import { WHY_CHOOSE_CONTENT } from '../../../data/why-choose-data';
+---
+
+<section
+  class="why-choose-section"
+  style={`background-image: url(${WHY_CHOOSE_CONTENT.bgImage});`}
+  aria-labelledby="why-choose-title"
+>
+  <!-- Dark Green Overlay -->
+  <div class="overlay"></div>
+
+  <div class="container">
+    <!-- Title with Gold Outline Effect -->
+    <h2 id="why-choose-title" class="section-title">{WHY_CHOOSE_CONTENT.title}</h2>
+
+    <!-- Features Grid -->
+    <div class="features-grid">
+      {WHY_CHOOSE_CONTENT.features.map((feature) => (
+        <div class="feature-item">
+          <div class="icon-wrapper" set:html={feature.icon} />
+          <p class="feature-text">{feature.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Footer Text -->
+    <h3 class="footer-text">{WHY_CHOOSE_CONTENT.footerText}</h3>
+  </div>
+</section>
+
+<style>
+  /* COLORS & TOKENS */
+  :root {
+    --color-overlay-green: rgba(27, 81, 45, 0.85);
+    --color-text-white: #ffffff;
+    --color-gold-outline: #cba052;
+  }
+
+  .why-choose-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 5rem 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--color-text-white);
+    text-align: center;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-overlay-green);
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* TITLE STYLING - text-shadow for thick outer stroke */
+  .section-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 800;
+    margin: 0 0 4rem 0;
+    letter-spacing: -0.01em;
+    text-shadow:
+      -2px -2px 0 var(--color-gold-outline),
+      2px -2px 0 var(--color-gold-outline),
+      -2px 2px 0 var(--color-gold-outline),
+      2px 2px 0 var(--color-gold-outline),
+      0px 4px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  /* FEATURES GRID */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+    text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 3rem;
+      column-gap: 4rem;
+    }
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon-wrapper :global(svg) {
+    width: 100%;
+    height: 100%;
+    color: var(--color-text-white);
+  }
+
+  .feature-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* FOOTER TEXT */
+  .footer-text {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 800;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 600px) {
+    .why-choose-section {
+      padding: 4rem 1rem;
+    }
+
+    .feature-item {
+      align-items: flex-start;
+    }
+  }
+</style>

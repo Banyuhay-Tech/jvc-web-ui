@@ -1,0 +1,223 @@
+---
+import { TESTIMONIALS_CONTENT } from '../../../data/testimonials-data';
+
+const activeReview = TESTIMONIALS_CONTENT.reviews[0];
+---
+
+<section class="testimonials-section" aria-labelledby="testimonials-title">
+  <div class="container">
+    <div class="content-wrapper">
+      <!-- Left Column: Text & Decorative Images -->
+      <div class="left-column">
+        <h2 id="testimonials-title" class="section-title">
+          {TESTIMONIALS_CONTENT.header.title}
+        </h2>
+        <p class="section-description">
+          {TESTIMONIALS_CONTENT.header.description}
+        </p>
+
+        <!-- Decorative Image Group -->
+        <div class="decorative-images">
+          <div
+            class="img-thank-you"
+            style={`background-image: url('${TESTIMONIALS_CONTENT.images.thankYou}');`}
+          ></div>
+          <div
+            class="img-dogs"
+            style={`background-image: url('${TESTIMONIALS_CONTENT.images.dogs}');`}
+          ></div>
+          <div
+            class="img-hearts"
+            style={`background-image: url('${TESTIMONIALS_CONTENT.images.hearts}');`}
+          ></div>
+        </div>
+      </div>
+
+      <!-- Right Column: Testimonial Card -->
+      <div class="right-column">
+        <div class="testimonial-card">
+          <p class="review-text">{activeReview.text}</p>
+          <p class="review-author">{activeReview.author}</p>
+        </div>
+
+        <!-- Carousel Indicators (Static Mockup) -->
+        <div class="carousel-indicators">
+          <span class="dot active" aria-current="true"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* COLORS & TOKENS */
+  :root {
+    --color-bg-dark-green: #0a4d2c;
+    --color-text-white: #ffffff;
+    --color-card-yellow: #d1a827;
+    --color-text-black: #000000;
+    --color-dot-inactive: #f0e6d2;
+  }
+
+  .testimonials-section {
+    background-color: var(--color-bg-dark-green);
+    padding: 5rem 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--color-text-white);
+    overflow: hidden;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  @media (min-width: 800px) {
+    .content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 3rem;
+    }
+  }
+
+  /* LEFT COLUMN */
+  .left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 1.5rem 0;
+    white-space: pre-line;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 3rem 0;
+    max-width: 450px;
+  }
+
+  .decorative-images {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .img-thank-you,
+  .img-dogs,
+  .img-hearts {
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .img-thank-you {
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 100px;
+    transform: rotate(-15deg);
+  }
+
+  .img-dogs {
+    bottom: -20px;
+    left: 20px;
+    width: 300px;
+    height: 250px;
+    background-position: bottom left;
+  }
+
+  .img-hearts {
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 120px;
+  }
+
+  /* RIGHT COLUMN */
+  .right-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .testimonial-card {
+    background-color: var(--color-card-yellow);
+    color: var(--color-text-black);
+    padding: 3rem 2.5rem;
+    border-radius: 32px;
+    width: 100%;
+    max-width: 550px;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif;
+  }
+
+  .review-text {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+    white-space: pre-line;
+  }
+
+  .review-author {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: right;
+    margin: 0;
+    text-decoration: underline;
+  }
+
+  .carousel-indicators {
+    display: flex;
+    gap: 12px;
+    margin-top: 2rem;
+  }
+
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color-dot-inactive);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .dot.active {
+    background-color: var(--color-text-white);
+  }
+
+  @media (max-width: 799px) {
+    .decorative-images {
+      height: 250px;
+      margin-bottom: 2rem;
+    }
+
+    .img-dogs {
+      width: 250px;
+      left: 0;
+    }
+
+    .testimonial-card {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
