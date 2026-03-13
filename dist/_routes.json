@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/_astro/*",
+    "/.assetsignore",
+    "/images/cat-and-dog-hero.png",
+    "/images/Home.png",
+    "/images/imus-map.png",
+    "/images/kawit-map.png",
+    "/images/logo.png",
+    "/images/pet-gallery-1.png",
+    "/images/testimonial-bg.png",
+    "/images/why-choose.png"
+  ]
+}
