@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && wrangler deploy --no-build",
+    "deploy": "astro build && wrangler deploy --no-x-autoconfig",
     "astro": "astro",
     "clean": "npx --yes rimraf node_modules"
   },
