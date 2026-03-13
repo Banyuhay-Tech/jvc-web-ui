@@ -43,15 +43,15 @@ const activeImage = GALLERY_CONTENT.images[0];
 <style>
   /* COLORS & TOKENS */
   :root {
-    --color-bg-cream: #f6f0e6;
-    --color-text-green: #0a4d2c;
-    --color-gold-dots: #b8862d;
+    --color-bg-cream: #ede4c5;
+    --color-text-green: #0a441e;
+    --color-gold-dots: #bb9313;
   }
 
   .pet-gallery-section {
     background-color: var(--color-bg-cream);
     padding: 5rem 1.5rem;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .container {
@@ -143,19 +143,20 @@ const activeImage = GALLERY_CONTENT.images[0];
   }
 
   .section-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: 'Calistoga', serif;
     font-size: clamp(3rem, 6vw, 4.5rem);
     font-weight: 800;
     color: var(--color-text-green);
     margin: 0 0 1rem 0;
-    line-height: 1.1;
+    line-height: 1.3;
   }
 
   .section-description {
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.75;
     color: var(--color-text-green);
     margin: 0;
+    text-align: justify;
   }
 
   @media (max-width: 799px) {

@@ -11,11 +11,13 @@
 }
 
 body {
-  font-family: "Libre Franklin", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 0;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
 }
 
 main {
@@ -23,8 +25,10 @@ main {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: "Calistoga", serif;
   margin: 0 0 0.5rem 0;
-  line-height: 1.2;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
 }
 
 a:hover {

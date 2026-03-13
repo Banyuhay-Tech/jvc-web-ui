@@ -15,7 +15,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Libre Franklin"', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'],
+        title: ['Calistoga', 'serif'],
       },
       keyframes: {
         slideDown: {

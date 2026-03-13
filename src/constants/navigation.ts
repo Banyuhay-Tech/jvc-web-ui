@@ -1,4 +1,4 @@
-export const LOGO_URL = '/logo.svg';
+export const LOGO_URL = '/images/logo.png';
 
 export interface NavLinkChild {
   name: string;

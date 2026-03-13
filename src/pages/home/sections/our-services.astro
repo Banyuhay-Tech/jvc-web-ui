@@ -1,5 +1,6 @@
 ---
 import { SERVICES_CONTENT } from '../../../data/our-services-data';
+import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 ---
 
 <section class="services-section" aria-labelledby="services-title">
@@ -15,18 +16,28 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
             <p class="branch-address">{branch.address}</p>
           </div>
 
-          <!-- Service Card (Carousel Mockup) -->
-          <div class="service-card">
-            <button type="button" class="nav-arrow left-arrow" aria-label="Previous Service">
+          <!-- Service Cards Carousel -->
+          <div class="carousel-wrapper">
+            <button type="button" class="nav-arrow left-arrow" aria-label="Previous service">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
 
-            <div class="card-content">
-              <div class="icon-wrapper" set:html={branch.service.icon} />
-              <h4 class="service-title">{branch.service.title}</h4>
+            <div class="carousel-track">
+              <div class="carousel-inner">
+                {branch.services.map((service) => (
+                  <div class="service-card">
+                    <div class="card-content">
+                      <div class="icon-wrapper">
+                        <ServiceCardIcon name={service.iconName} size={88} />
+                      </div>
+                      <h4 class="service-title">{service.title}</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <button type="button" class="nav-arrow right-arrow" aria-label="Next Service">
+            <button type="button" class="nav-arrow right-arrow" aria-label="Next service">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
@@ -39,17 +50,17 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
 <style>
   /* COLORS & TOKENS */
   :root {
-    --color-bg-cream: #f6f0e6;
-    --color-card-beige: #e9e0cd;
-    --color-text-green: #1a432b;
-    --color-text-gold: #c39b4b;
-    --color-arrow-bg: #afa890;
+    --color-bg-cream: #ede4c5;
+    --color-card-beige: #ddd2b0;
+    --color-text-green: #0a441e;
+    --color-text-gold: #bb9313;
+    --color-arrow-bg: #c9bf9e;
   }
 
   .services-section {
     background-color: var(--color-bg-cream);
     padding: 5rem 1.5rem;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .container {
@@ -58,12 +69,13 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
   }
 
   .section-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: 'Calistoga', serif;
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 800;
     color: var(--color-text-green);
     text-align: center;
     margin: 0 0 4rem 0;
+    line-height: 1.3;
   }
 
   .branches-grid {
@@ -105,21 +117,45 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
     font-weight: 400;
     color: var(--color-text-gold);
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.6;
     white-space: pre-line;
+    text-align: center;
+  }
+
+  .carousel-wrapper {
+    position: relative;
+    width: 320px;
+    margin: 0 auto;
+  }
+
+  .carousel-track {
+    overflow: hidden;
+    border-radius: 24px;
+    height: 280px;
+  }
+
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+
+  .carousel-inner .service-card {
+    flex: 0 0 100%;
+    min-width: 100%;
   }
 
   .service-card {
-    position: relative;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--color-card-beige);
     border-radius: 24px;
     padding: 3rem 2rem;
-    width: 100%;
-    max-width: 320px;
+    height: 280px;
+    min-height: 280px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
   }
 
   .card-content {
@@ -131,8 +167,8 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
   }
 
   .icon-wrapper {
-    width: 100px;
-    height: 100px;
+    width: 88px;
+    height: 88px;
     color: var(--color-text-green);
   }
 
@@ -142,20 +178,21 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
   }
 
   .service-title {
-    font-size: 1.4rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--color-text-green);
     margin: 0;
-    line-height: 1.2;
-    white-space: pre-line;
+    line-height: 1.35;
+    white-space: normal;
   }
 
   .nav-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background-color: var(--color-arrow-bg);
     color: var(--color-text-green);
@@ -169,7 +206,7 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
   }
 
   .nav-arrow:hover {
-    background-color: #989178;
+    background-color: #a07d0f;
     transform: translateY(-50%) scale(1.1);
   }
 
@@ -179,11 +216,11 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
   }
 
   .left-arrow {
-    left: -16px;
+    left: -18px;
   }
 
   .right-arrow {
-    right: -16px;
+    right: -18px;
   }
 
   @media (max-width: 400px) {
@@ -195,3 +232,30 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll('.branch-column').forEach((column) => {
+    const inner = column.querySelector('.carousel-inner') as HTMLElement | null;
+    const cards = column.querySelectorAll('.carousel-inner .service-card');
+    const prevBtn = column.querySelector('.left-arrow');
+    const nextBtn = column.querySelector('.right-arrow');
+
+    if (!inner || cards.length === 0 || !prevBtn || !nextBtn) return;
+
+    let index = 0;
+
+    function updateCarousel() {
+      (inner as HTMLElement).style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      index = (index - 1 + cards.length) % cards.length;
+      updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      index = (index + 1) % cards.length;
+      updateCarousel();
+    });
+  });
+</script>

@@ -6,8 +6,8 @@ export const COLORS = {
     light: '#B9D9EB',
     navy: '#052049',
   },
-  green: '#A4D16A',
-  yellow: '#FAC60B',
-  cream: '#FDF6E8',
+  green: '#0a441e',
+  yellow: '#bb9313',
+  cream: '#ede4c5',
   white: '#FFFFFF',
 };

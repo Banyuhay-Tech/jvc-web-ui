@@ -1,7 +1,5 @@
 ---
 import { TESTIMONIALS_CONTENT } from '../../../data/testimonials-data';
-
-const activeReview = TESTIMONIALS_CONTENT.reviews[0];
 ---
 
 <section class="testimonials-section" aria-labelledby="testimonials-title">
@@ -15,36 +13,36 @@ const activeReview = TESTIMONIALS_CONTENT.reviews[0];
         <p class="section-description">
           {TESTIMONIALS_CONTENT.header.description}
         </p>
-
-        <!-- Decorative Image Group -->
-        <div class="decorative-images">
-          <div
-            class="img-thank-you"
-            style={`background-image: url('${TESTIMONIALS_CONTENT.images.thankYou}');`}
-          ></div>
-          <div
-            class="img-dogs"
-            style={`background-image: url('${TESTIMONIALS_CONTENT.images.dogs}');`}
-          ></div>
-          <div
-            class="img-hearts"
-            style={`background-image: url('${TESTIMONIALS_CONTENT.images.hearts}');`}
-          ></div>
-        </div>
       </div>
 
-      <!-- Right Column: Testimonial Card -->
+      <!-- Right Column: Testimonial Carousel -->
       <div class="right-column">
-        <div class="testimonial-card">
-          <p class="review-text">{activeReview.text}</p>
-          <p class="review-author">{activeReview.author}</p>
+        <div class="testimonial-carousel">
+          <button type="button" class="testimonial-arrow testimonial-arrow-left" aria-label="Previous testimonial">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+
+          <div class="testimonial-track">
+            <div class="testimonial-inner" style="transform: translateX(-400%);">
+              {TESTIMONIALS_CONTENT.reviews.map((review) => (
+                <div class="testimonial-card">
+                  <p class="review-text">{review.text}</p>
+                  <p class="review-author">{review.author}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button type="button" class="testimonial-arrow testimonial-arrow-right" aria-label="Next testimonial">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
         </div>
 
-        <!-- Carousel Indicators (Static Mockup) -->
-        <div class="carousel-indicators">
-          <span class="dot active" aria-current="true"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators" id="testimonial-dots" role="tablist">
+          {TESTIMONIALS_CONTENT.reviews.map((_, i) => (
+            <button type="button" class={`dot ${i === 4 ? 'active' : ''}`} role="tab" aria-label={`Testimonial ${i + 1}`} aria-selected={i === 4} data-index={i}></button>
+          ))}
         </div>
       </div>
     </div>
@@ -54,17 +52,20 @@ const activeReview = TESTIMONIALS_CONTENT.reviews[0];
 <style>
   /* COLORS & TOKENS */
   :root {
-    --color-bg-dark-green: #0a4d2c;
+    --color-bg-dark-green: #0a441e;
     --color-text-white: #ffffff;
-    --color-card-yellow: #d1a827;
+    --color-card-yellow: #bb9313;
     --color-text-black: #000000;
-    --color-dot-inactive: #f0e6d2;
+    --color-dot-inactive: #ede4c5;
   }
 
   .testimonials-section {
-    background-color: var(--color-bg-dark-green);
+    background-image: url('/images/testimonial-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 5rem 1.5rem;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: var(--color-text-white);
     overflow: hidden;
   }
@@ -99,57 +100,20 @@ const activeReview = TESTIMONIALS_CONTENT.reviews[0];
   }
 
   .section-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: 'Calistoga', serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.3;
     margin: 0 0 1.5rem 0;
     white-space: pre-line;
   }
 
   .section-description {
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.75;
     margin: 0 0 3rem 0;
     max-width: 450px;
-  }
-
-  .decorative-images {
-    position: relative;
-    height: 300px;
-    width: 100%;
-    margin-top: auto;
-  }
-
-  .img-thank-you,
-  .img-dogs,
-  .img-hearts {
-    position: absolute;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-
-  .img-thank-you {
-    top: 0;
-    left: 0;
-    width: 150px;
-    height: 100px;
-    transform: rotate(-15deg);
-  }
-
-  .img-dogs {
-    bottom: -20px;
-    left: 20px;
-    width: 300px;
-    height: 250px;
-    background-position: bottom left;
-  }
-
-  .img-hearts {
-    bottom: 20px;
-    right: 20px;
-    width: 80px;
-    height: 120px;
+    text-align: justify;
   }
 
   /* RIGHT COLUMN */
@@ -161,6 +125,64 @@ const activeReview = TESTIMONIALS_CONTENT.reviews[0];
     width: 100%;
   }
 
+  .testimonial-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+  }
+
+  .testimonial-track {
+    overflow: hidden;
+    border-radius: 32px;
+  }
+
+  .testimonial-inner {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+
+  .testimonial-inner .testimonial-card {
+    flex: 0 0 100%;
+    min-width: 100%;
+  }
+
+  .testimonial-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-text-white);
+    color: var(--color-card-yellow);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .testimonial-arrow:hover {
+    opacity: 0.9;
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .testimonial-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .testimonial-arrow-left {
+    left: -20px;
+  }
+
+  .testimonial-arrow-right {
+    right: -20px;
+  }
+
   .testimonial-card {
     background-color: var(--color-card-yellow);
     color: var(--color-text-black);
@@ -168,14 +190,16 @@ const activeReview = TESTIMONIALS_CONTENT.reviews[0];
     border-radius: 32px;
     width: 100%;
     max-width: 550px;
-    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
   }
 
   .review-text {
     font-size: 1.1rem;
-    line-height: 1.5;
+    line-height: 1.65;
     margin: 0 0 2rem 0;
     white-space: pre-line;
+    text-align: justify;
   }
 
   .review-author {
@@ -190,34 +214,75 @@ const activeReview = TESTIMONIALS_CONTENT.reviews[0];
     display: flex;
     gap: 12px;
     margin-top: 2rem;
+    justify-content: center;
   }
 
-  .dot {
+  .carousel-indicators .dot {
     width: 16px;
     height: 16px;
     border-radius: 50%;
     background-color: var(--color-dot-inactive);
+    border: none;
     cursor: pointer;
     transition: background-color 0.2s;
+    padding: 0;
   }
 
-  .dot.active {
+  .carousel-indicators .dot[aria-selected="true"],
+  .carousel-indicators .dot.active {
     background-color: var(--color-text-white);
   }
 
   @media (max-width: 799px) {
-    .decorative-images {
-      height: 250px;
-      margin-bottom: 2rem;
-    }
-
-    .img-dogs {
-      width: 250px;
-      left: 0;
-    }
-
     .testimonial-card {
       padding: 2rem 1.5rem;
     }
+
+    .testimonial-arrow-left {
+      left: -8px;
+    }
+
+    .testimonial-arrow-right {
+      right: -8px;
+    }
   }
 </style>
+
+<script>
+  (function () {
+    const inner = document.querySelector('.testimonial-inner') as HTMLElement | null;
+    const cards = document.querySelectorAll('.testimonial-inner .testimonial-card');
+    const prevBtn = document.querySelector('.testimonial-arrow-left');
+    const nextBtn = document.querySelector('.testimonial-arrow-right');
+    const dots = document.querySelectorAll('#testimonial-dots .dot');
+
+    if (!inner || cards.length === 0) return;
+
+    let index = 4;
+
+    function updateCarousel() {
+      if (inner) inner.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    prevBtn?.addEventListener('click', () => {
+      index = (index - 1 + cards.length) % cards.length;
+      updateCarousel();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      index = (index + 1) % cards.length;
+      updateCarousel();
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        index = i;
+        updateCarousel();
+      });
+    });
+  })();
+</script>

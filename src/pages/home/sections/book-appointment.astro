@@ -1,0 +1,193 @@
+---
+import { BOOKING_CONTENT } from '../../../data/booking-data';
+---
+
+<section class="booking-section" aria-labelledby="booking-title">
+  <div class="container">
+    <div class="header-content">
+      <h2 id="booking-title" class="section-title">{BOOKING_CONTENT.title}</h2>
+      <p class="section-subtitle">{BOOKING_CONTENT.subtitle}</p>
+    </div>
+
+    <form class="booking-form" action="#" method="POST">
+      <div class="form-group">
+        <label for="name">{BOOKING_CONTENT.form.nameLabel}</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="pet">{BOOKING_CONTENT.form.petLabel}</label>
+        <input type="text" id="pet" name="pet" required />
+      </div>
+
+      <div class="form-group">
+        <label for="service">{BOOKING_CONTENT.form.serviceLabel}</label>
+        <input type="text" id="service" name="service" required />
+      </div>
+
+      <div class="form-group">
+        <label class="branch-main-label">{BOOKING_CONTENT.form.branchLabel}</label>
+        <div class="checkbox-group">
+          {BOOKING_CONTENT.form.branchOptions.map((option) => (
+            <div class="checkbox-item">
+              <input type="radio" id={option.id} name="branch" value={option.value} required />
+              <label for={option.id}>{option.label}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="form-group half-width">
+        <label for="datetime">{BOOKING_CONTENT.form.datetimeLabel}</label>
+        <input type="datetime-local" id="datetime" name="datetime" required />
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Request</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  :root {
+    --booking-bg: #bb9313;
+    --booking-text-white: #ffffff;
+    --booking-title-stroke: #0a441e;
+  }
+
+  .booking-section {
+    background-color: var(--booking-bg);
+    padding: 5rem 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--booking-text-white);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .header-content {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-family: 'Calistoga', serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    color: var(--booking-text-white);
+    text-shadow:
+      -3px -3px 0 var(--booking-title-stroke),
+      3px -3px 0 var(--booking-title-stroke),
+      -3px 3px 0 var(--booking-title-stroke),
+      3px 3px 0 var(--booking-title-stroke),
+      0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .section-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .form-group.half-width {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .booking-form label {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .booking-form input[type="text"],
+  .booking-form input[type="datetime-local"] {
+    width: 100%;
+    height: 44px;
+    background-color: var(--booking-text-white);
+    border: none;
+    border-radius: 8px;
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    outline: none;
+  }
+
+  .booking-form input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+  }
+
+  .branch-main-label {
+    margin-bottom: 0.25rem;
+  }
+
+  .checkbox-group {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .checkbox-item input[type="radio"] {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--booking-title-stroke);
+    cursor: pointer;
+  }
+
+  .checkbox-item label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .submit-btn {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    background-color: var(--booking-title-stroke);
+    color: var(--booking-text-white);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+
+  .submit-btn:hover {
+    background-color: #062a18;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 600px) {
+    .section-subtitle {
+      font-size: 1.05rem;
+    }
+
+    .form-group.half-width {
+      max-width: none;
+    }
+  }
+</style>

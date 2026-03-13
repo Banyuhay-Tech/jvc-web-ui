@@ -10,8 +10,8 @@ export const GALLERY_CONTENT = {
   </svg>`,
   images: [
     {
-      src: "/images/fluffy-white-dog.jpg",
-      alt: "A fluffy white dog being groomed",
+      src: "/images/pet-gallery-1.png",
+      alt: "A fluffy white dog in a green sweater being cared for at the clinic",
     },
   ],
 } as const;

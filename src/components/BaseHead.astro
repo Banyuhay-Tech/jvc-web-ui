@@ -9,7 +9,7 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, image = '/images/cat-and-dog.png' } = Astro.props;
+const { title, description, image = '/images/logo.png' } = Astro.props;
 const ogImage = image.startsWith('http') ? image : new URL(image, Astro.site).href;
 ---
 
@@ -20,7 +20,7 @@ const ogImage = image.startsWith('http') ? image : new URL(image, Astro.site).hr
 <meta name="generator" content={Astro.generator} />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
 
 <title>{title}</title>
 <meta name="title" content={title} />
