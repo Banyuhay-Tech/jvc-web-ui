@@ -8,7 +8,10 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
     <h2 id="services-title" class="section-title">{SERVICES_CONTENT.title}</h2>
 
     <div class="branches-grid">
-      {SERVICES_CONTENT.branches.map((branch) => (
+      {SERVICES_CONTENT.branches.map((branch) => {
+        const services = branch.services;
+        const duplicatedServices = [...services, ...services];
+        return (
         <div class="branch-column">
           <!-- Branch Header -->
           <div class="branch-header">
@@ -16,16 +19,12 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
             <p class="branch-address">{branch.address}</p>
           </div>
 
-          <!-- Service Cards Carousel -->
+          <!-- Service Cards Carousel (infinite scroll) -->
           <div class="carousel-wrapper">
-            <button type="button" class="nav-arrow left-arrow" aria-label="Previous service">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-
-            <div class="carousel-track">
-              <div class="carousel-inner">
-                {branch.services.map((service) => (
-                  <div class="service-card">
+            <div class="carousel-track" role="region" aria-label="Service cards carousel" tabindex="0">
+              <div class="carousel-inner" style={`width: ${duplicatedServices.length * 100}%; --card-count: ${duplicatedServices.length}`}>
+                {duplicatedServices.map((service, i) => (
+                  <div class="service-card" data-index={i}>
                     <div class="card-content">
                       <div class="icon-wrapper">
                         <ServiceCardIcon name={service.iconName} size={88} />
@@ -37,12 +36,22 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
               </div>
             </div>
 
-            <button type="button" class="nav-arrow right-arrow" aria-label="Next service">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
+            <div class="services-dots" role="tablist" aria-label={`Service cards for ${branch.name}`}>
+              {services.map((_, i) => (
+                <button
+                  type="button"
+                  class={`dot ${i === 0 ? 'active' : ''}`}
+                  role="tab"
+                  aria-label={`Service ${i + 1}`}
+                  aria-selected={i === 0}
+                  data-index={i}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
@@ -124,24 +133,35 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 
   .carousel-wrapper {
     position: relative;
-    width: 320px;
+    width: 100%;
+    max-width: 320px;
     margin: 0 auto;
   }
 
   .carousel-track {
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     border-radius: 24px;
     height: 280px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
   }
 
   .carousel-inner {
     display: flex;
-    transition: transform 0.3s ease;
+    height: 100%;
   }
 
   .carousel-inner .service-card {
-    flex: 0 0 100%;
-    min-width: 100%;
+    flex: 0 0 calc(100% / var(--card-count, 16));
+    min-width: calc(100% / var(--card-count, 16));
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   .service-card {
@@ -184,78 +204,165 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
     color: var(--color-text-green);
     margin: 0;
     line-height: 1.35;
-    white-space: normal;
+    white-space: pre-line;
   }
 
-  .nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: var(--color-arrow-bg);
-    color: var(--color-text-green);
-    border: none;
+  .carousel-track {
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  .services-dots {
     display: flex;
+    gap: 10px;
+    margin-top: 1rem;
     justify-content: center;
     align-items: center;
+  }
+
+  .services-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
-    z-index: 2;
+    background-color: var(--color-text-gold);
+    opacity: 0.35;
+    transition: opacity 0.2s, transform 0.2s;
   }
 
-  .nav-arrow:hover {
-    background-color: #a07d0f;
-    transform: translateY(-50%) scale(1.1);
-  }
-
-  .nav-arrow svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .left-arrow {
-    left: -18px;
-  }
-
-  .right-arrow {
-    right: -18px;
-  }
-
-  @media (max-width: 400px) {
-    .left-arrow {
-      left: -10px;
-    }
-    .right-arrow {
-      right: -10px;
-    }
+  .services-dots .dot[aria-selected="true"],
+  .services-dots .dot.active {
+    opacity: 1;
+    transform: scale(1.05);
   }
 </style>
 
 <script>
   document.querySelectorAll('.branch-column').forEach((column) => {
+    const trackEl = column.querySelector('.carousel-track') as HTMLElement | null;
     const inner = column.querySelector('.carousel-inner') as HTMLElement | null;
     const cards = column.querySelectorAll('.carousel-inner .service-card');
-    const prevBtn = column.querySelector('.left-arrow');
-    const nextBtn = column.querySelector('.right-arrow');
+    const dots = column.querySelectorAll('.services-dots .dot') as NodeListOf<HTMLButtonElement>;
 
-    if (!inner || cards.length === 0 || !prevBtn || !nextBtn) return;
+    if (!trackEl || !inner || cards.length === 0) return;
+    const track = trackEl;
 
-    let index = 0;
+    const totalCards = cards.length;
+    const realCount = Math.max(1, Math.floor(totalCards / 2));
+    let oneSetWidth = 0;
+    let ticking = false;
+    let autoTimer: ReturnType<typeof setInterval> | null = null;
 
-    function updateCarousel() {
-      (inner as HTMLElement).style.transform = `translateX(-${index * 100}%)`;
+    function measure() {
+      oneSetWidth = track.scrollWidth / 2;
     }
 
-    prevBtn.addEventListener('click', () => {
-      index = (index - 1 + cards.length) % cards.length;
-      updateCarousel();
+    function getRealIndexFromScroll() {
+      const slideWidth = track.clientWidth || 1;
+      const approx = Math.round(track.scrollLeft / slideWidth);
+      return ((approx % realCount) + realCount) % realCount;
+    }
+
+    function updateDots() {
+      if (!dots || dots.length === 0) return;
+      const active = getRealIndexFromScroll();
+      dots.forEach((dot, i) => {
+        dot.setAttribute('aria-selected', i === active ? 'true' : 'false');
+        dot.classList.toggle('active', i === active);
+      });
+    }
+
+    function wrapScroll() {
+      if (oneSetWidth <= 0) measure();
+      const left = track.scrollLeft;
+      if (oneSetWidth <= 0) {
+        ticking = false;
+        return;
+      }
+      if (left >= oneSetWidth - 2) {
+        track.scrollLeft = left - oneSetWidth;
+      } else if (left <= 0) {
+        track.scrollLeft = left + oneSetWidth;
+      }
+      updateDots();
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(wrapScroll);
+        ticking = true;
+      }
+    }
+
+    track.addEventListener('scroll', onScroll, { passive: true });
+
+    function onWheel(e: WheelEvent) {
+      if (oneSetWidth <= 0) return;
+      const left = track.scrollLeft;
+      if (left <= 1 && e.deltaX > 0) {
+        track.scrollLeft = oneSetWidth;
+        e.preventDefault();
+      } else if (left >= oneSetWidth - 1 && e.deltaX < 0) {
+        track.scrollLeft = left - oneSetWidth;
+        e.preventDefault();
+      }
+    }
+
+    track.addEventListener('wheel', onWheel, { passive: false });
+
+    function goToRealIndex(realIndex: number, behavior: ScrollBehavior = 'smooth') {
+      const slideWidth = track.clientWidth || 0;
+      const target = Math.max(0, Math.min(realCount - 1, realIndex)) * slideWidth;
+      track.scrollTo({ left: target, behavior });
+      updateDots();
+    }
+
+    function next() {
+      const slideWidth = track.clientWidth || 0;
+      if (slideWidth <= 0) return;
+      track.scrollBy({ left: slideWidth, behavior: 'smooth' });
+    }
+
+    function startAuto() {
+      if (autoTimer) return;
+      autoTimer = setInterval(() => {
+        if (!document.hidden) next();
+      }, 3000);
+    }
+
+    function stopAuto() {
+      if (!autoTimer) return;
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+
+    track.addEventListener('mouseenter', stopAuto);
+    track.addEventListener('mouseleave', startAuto);
+    track.addEventListener('focusin', stopAuto);
+    track.addEventListener('focusout', startAuto);
+    track.addEventListener('pointerdown', stopAuto, { passive: true });
+    track.addEventListener('pointerup', startAuto, { passive: true });
+    track.addEventListener('touchstart', stopAuto, { passive: true });
+    track.addEventListener('touchend', startAuto, { passive: true });
+
+    dots?.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = Number(dot.dataset.index ?? '0');
+        stopAuto();
+        goToRealIndex(idx, 'smooth');
+        startAuto();
+      });
     });
 
-    nextBtn.addEventListener('click', () => {
-      index = (index + 1) % cards.length;
-      updateCarousel();
+    const ro = new ResizeObserver(() => {
+      measure();
+      updateDots();
     });
+    ro.observe(track);
+    measure();
+    updateDots();
+    startAuto();
   });
 </script>

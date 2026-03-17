@@ -1,48 +1,50 @@
 ---
 import { TESTIMONIALS_CONTENT } from '../../../data/testimonials-data';
+const reviews = TESTIMONIALS_CONTENT.reviews;
+// Cyclic reviews for infinite loop logic
+const cyclicReviews = [reviews[reviews.length - 1], ...reviews, reviews[0]];
 ---
 
-<section class="testimonials-section" aria-labelledby="testimonials-title">
+<section class="testimonials-section">
   <div class="container">
-    <div class="content-wrapper">
-      <!-- Left Column: Text & Decorative Images -->
-      <div class="left-column">
-        <h2 id="testimonials-title" class="section-title">
-          {TESTIMONIALS_CONTENT.header.title}
-        </h2>
-        <p class="section-description">
-          {TESTIMONIALS_CONTENT.header.description}
-        </p>
+    <div class="main-layout">
+      <div class="left-content">
+        <div class="text-group">
+          <h2 class="section-title">{TESTIMONIALS_CONTENT.header.title}</h2>
+          <p class="section-description">{TESTIMONIALS_CONTENT.header.description}</p>
+        </div>
+
       </div>
 
-      <!-- Right Column: Testimonial Carousel -->
-      <div class="right-column">
-        <div class="testimonial-carousel">
-          <button type="button" class="testimonial-arrow testimonial-arrow-left" aria-label="Previous testimonial">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
+      <div class="right-carousel">
+        <div class="glass-outer-box">
+          <span class="quote-mark" aria-hidden="true">“</span>
 
-          <div class="testimonial-track">
-            <div class="testimonial-inner" style="transform: translateX(-400%);">
-              {TESTIMONIALS_CONTENT.reviews.map((review) => (
-                <div class="testimonial-card">
-                  <p class="review-text">{review.text}</p>
-                  <p class="review-author">{review.author}</p>
+          <div class="carousel-clip" role="region" aria-label="Testimonials carousel">
+            <div class="testimonial-inner" id="track" style="transform: translateX(-100%);">
+              {cyclicReviews.map((review) => (
+                <div class="testimonial-slide">
+                  <div class="testimonial-card">
+                    <p class="review-body">“{review.text}”</p>
+                    <div class="author-area">
+                      <span class="line"></span>
+                      <p class="author-name">{review.author}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <button type="button" class="testimonial-arrow testimonial-arrow-right" aria-label="Next testimonial">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
-        </div>
-
-        <!-- Carousel Indicators -->
-        <div class="carousel-indicators" id="testimonial-dots" role="tablist">
-          {TESTIMONIALS_CONTENT.reviews.map((_, i) => (
-            <button type="button" class={`dot ${i === 4 ? 'active' : ''}`} role="tab" aria-label={`Testimonial ${i + 1}`} aria-selected={i === 4} data-index={i}></button>
-          ))}
+          <div class="nav-bar">
+            <button type="button" class="arrow prev" data-action="prev" aria-label="Previous">‹</button>
+            <div class="dots" id="testimonial-dots" role="tablist" aria-label="Testimonials">
+              {reviews.map((_, i) => (
+                <button type="button" class={`dot ${i === 0 ? 'active' : ''}`} data-index={i} role="tab" aria-label={`Go to slide ${i + 1}`} aria-selected={i === 0}></button>
+              ))}
+            </div>
+            <button type="button" class="arrow next" data-action="next" aria-label="Next">›</button>
+          </div>
         </div>
       </div>
     </div>
@@ -50,239 +52,313 @@ import { TESTIMONIALS_CONTENT } from '../../../data/testimonials-data';
 </section>
 
 <style>
-  /* COLORS & TOKENS */
   :root {
-    --color-bg-dark-green: #0a441e;
-    --color-text-white: #ffffff;
-    --color-card-yellow: #bb9313;
-    --color-text-black: #000000;
-    --color-dot-inactive: #ede4c5;
+    --brand-green: #0a441e;
+    --brand-gold: #bb9313;
+    --brand-cream: #ede4c5;
   }
 
   .testimonials-section {
-    background-image: url('/images/testimonial-bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 5rem 1.5rem;
+    background: var(--brand-green) url('/images/testimonial-bg.png') center/cover no-repeat;
+    padding: 4rem 1rem;
+    overflow: hidden; /* Critical for carousels */
+    min-height: 600px;
+    display: flex;
+    align-items: center;
     font-family: 'Montserrat', sans-serif;
-    color: var(--color-text-white);
-    overflow: hidden;
   }
 
   .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
   }
 
-  .content-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
+  /* DESKTOP LAYOUT (Matches your screenshot) */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
   }
 
-  @media (min-width: 800px) {
-    .content-wrapper {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 3rem;
+  @media (min-width: 1024px) {
+    .main-layout {
+      grid-template-columns: 35% 65%; /* Precise balance */
     }
   }
 
-  /* LEFT COLUMN */
-  .left-column {
-    flex: 1;
+  /* LEFT SIDE */
+  .left-content {
     display: flex;
     flex-direction: column;
-    position: relative;
-    z-index: 2;
+    height: 100%;
+    justify-content: space-between;
   }
 
   .section-title {
     font-family: 'Calistoga', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.3;
-    margin: 0 0 1.5rem 0;
-    white-space: pre-line;
+    color: white;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
   }
 
   .section-description {
-    font-size: 1.1rem;
-    line-height: 1.75;
-    margin: 0 0 3rem 0;
-    max-width: 450px;
-    text-align: justify;
+    color: #cbd5e1;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    max-width: 320px;
   }
 
-  /* RIGHT COLUMN */
-  .right-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  /* RIGHT SIDE - THE CAROUSEL */
+  .right-carousel {
+    min-width: 0; /* allow grid item to shrink; prevents overflow */
     width: 100%;
-  }
-
-  .testimonial-carousel {
     position: relative;
-    width: 100%;
-    max-width: 550px;
   }
 
-  .testimonial-track {
-    overflow: hidden;
-    border-radius: 32px;
+  .glass-outer-box {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+    padding: 3rem;
+    position: relative;
+  }
+
+  .quote-mark {
+    position: absolute;
+    top: 10px;
+    left: 40px;
+    font-size: 6rem;
+    color: var(--brand-gold);
+    font-family: 'Calistoga', serif;
+    opacity: 0.4;
+  }
+
+  .carousel-clip {
+    overflow: hidden; /* Keeps the cards from bleeding off screen */
+    width: 100%;
   }
 
   .testimonial-inner {
     display: flex;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
 
-  .testimonial-inner .testimonial-card {
+  .testimonial-slide {
     flex: 0 0 100%;
     min-width: 100%;
-  }
-
-  .testimonial-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--color-text-white);
-    color: var(--color-card-yellow);
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s;
-    z-index: 2;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  .testimonial-arrow:hover {
-    opacity: 0.9;
-    transform: translateY(-50%) scale(1.05);
-  }
-
-  .testimonial-arrow svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .testimonial-arrow-left {
-    left: -20px;
-  }
-
-  .testimonial-arrow-right {
-    right: -20px;
+    padding: 0.5rem;
+    box-sizing: border-box; /* padding should not increase slide width */
   }
 
   .testimonial-card {
-    background-color: var(--color-card-yellow);
-    color: var(--color-text-black);
-    padding: 3rem 2.5rem;
-    border-radius: 32px;
-    width: 100%;
-    max-width: 550px;
-    font-family: 'Montserrat', sans-serif;
-    box-sizing: border-box;
-  }
-
-  .review-text {
-    font-size: 1.1rem;
-    line-height: 1.65;
-    margin: 0 0 2rem 0;
-    white-space: pre-line;
-    text-align: justify;
-  }
-
-  .review-author {
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-align: right;
-    margin: 0;
-    text-decoration: underline;
-  }
-
-  .carousel-indicators {
+    background: var(--brand-gold);
+    color: #1a1a1a;
+    padding: 2.5rem;
+    border-radius: 24px;
+    min-height: 250px;
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .review-body {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .author-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .line { width: 30px; height: 2px; background: rgba(0,0,0,0.2); }
+  .author-name { font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+  /* NAVIGATION */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
     margin-top: 2rem;
     justify-content: center;
   }
 
-  .carousel-indicators .dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background-color: var(--color-dot-inactive);
+  @media (min-width: 1024px) {
+    .nav-bar { justify-content: flex-start; }
+  }
+
+  .arrow {
+    background: white;
     border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.2s;
+    font-size: 1.5rem;
+    display: grid;
+    place-items: center;
+    color: var(--brand-green);
+    transition: 0.3s;
+  }
+
+  .arrow:hover { background: var(--brand-gold); color: white; }
+
+  .dots { display: flex; gap: 8px; }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.3);
+    transition: 0.3s;
     padding: 0;
+    cursor: pointer;
+  }
+  .dot.active {
+    background: var(--brand-gold);
+    width: 24px;
+    border-radius: 4px;
   }
 
-  .carousel-indicators .dot[aria-selected="true"],
-  .carousel-indicators .dot.active {
-    background-color: var(--color-text-white);
-  }
-
-  @media (max-width: 799px) {
-    .testimonial-card {
-      padding: 2rem 1.5rem;
-    }
-
-    .testimonial-arrow-left {
-      left: -8px;
-    }
-
-    .testimonial-arrow-right {
-      right: -8px;
-    }
+  /* MOBILE RESPONSIVENESS */
+  @media (max-width: 1023px) {
+    .left-content { align-items: center; text-align: center; }
+    .section-description { max-width: 100%; }
+    .glass-outer-box { padding: 2rem 1rem; }
   }
 </style>
 
 <script>
   (function () {
-    const inner = document.querySelector('.testimonial-inner') as HTMLElement | null;
-    const cards = document.querySelectorAll('.testimonial-inner .testimonial-card');
-    const prevBtn = document.querySelector('.testimonial-arrow-left');
-    const nextBtn = document.querySelector('.testimonial-arrow-right');
+    const SWIPE_THRESHOLD = 50;
+
+    const clip = document.querySelector('.carousel-clip');
+    const inner = document.getElementById('track');
+    const slides = document.querySelectorAll('#track .testimonial-slide');
     const dots = document.querySelectorAll('#testimonial-dots .dot');
+    const arrows = document.querySelectorAll('.nav-bar .arrow');
 
-    if (!inner || cards.length === 0) return;
+    if (!(clip instanceof HTMLElement)) return;
+    if (!(inner instanceof HTMLElement)) return;
+    if (!slides || slides.length === 0) return;
 
-    let index = 4;
+    const clipEl = /** @type {HTMLElement} */ (clip);
+    const innerEl = /** @type {HTMLElement} */ (inner);
 
-    function updateCarousel() {
-      if (inner) inner.style.transform = `translateX(-${index * 100}%)`;
+    const totalSlides = slides.length;
+    const realCount = totalSlides - 2;
+    let index = 1;
+    let startX = 0;
+    let isJumping = false;
+
+    function getRealIndex() {
+      if (index === 0) return realCount - 1;
+      if (index === totalSlides - 1) return 0;
+      return index - 1;
+    }
+
+    function updateDots() {
+      const r = getRealIndex();
       dots.forEach((dot, i) => {
-        dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
-        dot.classList.toggle('active', i === index);
+        if (!(dot instanceof HTMLElement)) return;
+        dot.setAttribute('aria-selected', i === r ? 'true' : 'false');
+        dot.classList.toggle('active', i === r);
       });
     }
 
-    prevBtn?.addEventListener('click', () => {
-      index = (index - 1 + cards.length) % cards.length;
-      updateCarousel();
+    function applyTransform(useTransition: boolean) {
+      innerEl.style.transition = useTransition ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+      innerEl.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function jumpIfNeeded() {
+      if (index === totalSlides - 1) {
+        index = 1;
+        applyTransform(false);
+      } else if (index === 0) {
+        index = totalSlides - 2;
+        applyTransform(false);
+      }
+      innerEl.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    }
+
+    function goTo(slideIndex: number) {
+      if (isJumping) return;
+      index = slideIndex;
+      applyTransform(true);
+      updateDots();
+    }
+
+    function next() {
+      if (isJumping) return;
+      index = index + 1;
+      applyTransform(true);
+      updateDots();
+    }
+
+    function prev() {
+      if (isJumping) return;
+      index = index - 1;
+      applyTransform(true);
+      updateDots();
+    }
+
+    innerEl.addEventListener('transitionend', () => {
+      if (isJumping) return;
+      isJumping = true;
+      jumpIfNeeded();
+      updateDots();
+      requestAnimationFrame(() => { isJumping = false; });
     });
 
-    nextBtn?.addEventListener('click', () => {
-      index = (index + 1) % cards.length;
-      updateCarousel();
+    function handleSwipeEnd(clientX: number) {
+      const diff = clientX - startX;
+      if (diff > SWIPE_THRESHOLD) prev();
+      else if (diff < -SWIPE_THRESHOLD) next();
+    }
+
+    clipEl.addEventListener('touchstart', (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      startX = t.clientX;
+    }, { passive: true });
+
+    clipEl.addEventListener('touchend', (e) => {
+      const t = e.changedTouches && e.changedTouches[0];
+      if (!t) return;
+      handleSwipeEnd(t.clientX);
+    }, { passive: true });
+
+    clipEl.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      startX = e.clientX;
+    });
+
+    clipEl.addEventListener('mouseup', (e) => {
+      if (e.button !== 0) return;
+      handleSwipeEnd(e.clientX);
     });
 
     dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        index = i;
-        updateCarousel();
+      if (!(dot instanceof HTMLElement)) return;
+      dot.addEventListener('click', () => goTo(i + 1));
+    });
+
+    arrows.forEach((btn) => {
+      if (!(btn instanceof HTMLElement)) return;
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        if (action === 'prev') prev();
+        else next();
       });
     });
+
+    updateDots();
   })();
 </script>

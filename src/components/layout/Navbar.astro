@@ -8,8 +8,13 @@ const currentPath = Astro.url.pathname;
 <nav class="sticky top-0 z-50 bg-white shadow-md font-sans animate-slide-down">
   <div class="container mx-auto px-4 lg:px-8">
     <div class="flex justify-between items-center h-20">
-      <a href="/" class="flex items-center gap-3 cursor-pointer">
+      <a href="/" class="flex items-center gap-2 sm:gap-3 cursor-pointer">
         <img src={LOGO_URL} alt="Jamir Veterinary Clinic" class="h-12 w-auto" />
+        <span class="sm:hidden -ml-1 text-xs font-extrabold leading-tight tracking-wide uppercase" style={{ color: COLORS.green }}>
+          <span class="block">Jamir</span>
+          <span class="block">Veterinary</span>
+          <span class="block">Clinic</span>
+        </span>
         <span class="hidden sm:block text-lg font-bold whitespace-nowrap" style={{ color: COLORS.green }}>Jamir Veterinary Clinic</span>
       </a>
 

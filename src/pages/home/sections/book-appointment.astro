@@ -2,7 +2,7 @@
 import { BOOKING_CONTENT } from '../../../data/booking-data';
 ---
 
-<section class="booking-section" aria-labelledby="booking-title">
+<section id="book-appointment" class="booking-section" aria-labelledby="booking-title">
   <div class="container">
     <div class="header-content">
       <h2 id="booking-title" class="section-title">{BOOKING_CONTENT.title}</h2>
@@ -188,6 +188,12 @@ import { BOOKING_CONTENT } from '../../../data/booking-data';
 
     .form-group.half-width {
       max-width: none;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .checkbox-group {
+      gap: 1rem;
     }
   }
 </style>

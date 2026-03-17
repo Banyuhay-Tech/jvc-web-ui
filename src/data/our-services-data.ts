@@ -22,7 +22,7 @@ export const SERVICES_CONTENT = {
         { title: "Veterinary Consultation", iconName: 'consultation' as ServiceIconName },
         { title: "Surgery", iconName: 'surgery' as ServiceIconName },
         { title: "Vaccination", iconName: 'vaccination' as ServiceIconName },
-        { title: "Radiography (X-ray)", iconName: 'radiography' as ServiceIconName },
+        { title: "Radiography\n(X-Ray)", iconName: 'radiography' as ServiceIconName },
         { title: "Grooming", iconName: 'grooming' as ServiceIconName },
         { title: "Pet Hotel (Overnight Pet Boarding)", iconName: 'petHotel' as ServiceIconName },
         { title: "Pharmacy", iconName: 'pharmacy' as ServiceIconName },
