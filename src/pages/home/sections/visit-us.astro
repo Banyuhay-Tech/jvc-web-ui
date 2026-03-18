@@ -2,7 +2,7 @@
 import { VISIT_US_CONTENT } from '../../../data/visit-us-data';
 ---
 
-<section class="visit-us-section" aria-labelledby="visit-us-title">
+<section id="visit-us" class="visit-us-section" aria-labelledby="visit-us-title">
   <!-- Decorative Background Paw Prints -->
   <div class="bg-paw paw-left" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -26,50 +26,33 @@ import { VISIT_US_CONTENT } from '../../../data/visit-us-data';
       {VISIT_US_CONTENT.title}
     </h2>
 
-    <div class="branches-grid">
+    <div class="locations-grid" role="list" aria-label="Our locations">
       {VISIT_US_CONTENT.branches.map((branch) => (
-        <div class="branch-card">
-          <!-- Branch Header -->
-          <div class="branch-header">
-            <h3 class="branch-name">{branch.name}</h3>
-            <p class="branch-address">{branch.address}</p>
-          </div>
-
-          <!-- Map Image -->
-          <div class="map-wrapper">
+        <article class="location-card" role="listitem" aria-label={branch.name}>
+          <div class="branch-photo">
             <img
               src={branch.mapImage}
-              alt={`Map to ${branch.name}`}
-              class="map-image"
+              alt={`${branch.name} location`}
               loading="lazy"
-              width="400"
-              height="225"
+              decoding="async"
+              class="branch-photo-img"
+              width="800"
+              height="450"
             />
           </div>
-
-          <!-- Contact Details -->
-          <div class="contact-details">
-            <a
-              href={`tel:${branch.phone.replace(/\s/g, '')}`}
-              class="contact-item contact-item-link"
-            >
-              <span class="icon" set:html={VISIT_US_CONTENT.icons.phone} />
-              <p>{branch.phone}</p>
-            </a>
-            <div class="contact-item">
-              <span class="icon" set:html={VISIT_US_CONTENT.icons.clock} />
-              <p>{branch.hours}</p>
-            </div>
-            <a
-              href={branch.facebookLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="facebook-link"
-            >
-              {branch.facebookText}
-            </a>
-          </div>
-        </div>
+          <h3 class="branch-name">{branch.name}</h3>
+          <p class="branch-detail">{branch.address}</p>
+          <p class="branch-detail"><strong>Phone:</strong> {branch.phone}</p>
+          <p class="branch-detail"><strong>Hours:</strong> {branch.hours}</p>
+          <a
+            href={branch.facebookLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="facebook-link"
+          >
+            {branch.facebookText}
+          </a>
+        </article>
       ))}
     </div>
   </div>
@@ -137,61 +120,39 @@ import { VISIT_US_CONTENT } from '../../../data/visit-us-data';
   }
 
   /* GRID */
-  .branches-grid {
+  .locations-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 4rem;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
-  @media (min-width: 800px) {
-    .branches-grid {
+  @media (min-width: 900px) {
+    .locations-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 3rem;
+      gap: 2.25rem;
     }
   }
 
-  /* BRANCH CARD */
-  .branch-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .branch-header {
-    margin-bottom: 1.5rem;
-    min-height: 80px;
-    text-align: left;
-  }
-
-  .branch-name {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--color-text-gold);
-    margin: 0 0 0.5rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .branch-address {
-    font-size: 1.25rem;
-    color: var(--color-text-green);
-    margin: 0;
-    line-height: 1.6;
-    white-space: pre-line;
-    text-align: left;
-  }
-
-  /* MAP */
-  .map-wrapper {
-    width: 100%;
-    border-radius: 16px;
+  .location-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 0 2rem 2rem 2rem;
+    box-shadow: 0 10px 30px rgba(10, 68, 30, 0.08);
+    border-left: 5px solid var(--color-text-gold);
     overflow: hidden;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    background-color: #fff;
   }
 
-  .map-image {
+  .branch-photo {
+    width: calc(100% + 4rem);
+    margin-left: -2rem;
+    margin-right: -2rem;
+    border-bottom: 1px solid rgba(10, 68, 30, 0.08);
+    background: #ffffff;
+  }
+
+  .branch-photo-img {
     width: 100%;
     height: auto;
     aspect-ratio: 16/9;
@@ -199,54 +160,29 @@ import { VISIT_US_CONTENT } from '../../../data/visit-us-data';
     display: block;
   }
 
-  /* CONTACT DETAILS */
-  .contact-details {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  .branch-name {
+    color: var(--color-text-gold);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin: 1.5rem 0 0.75rem 0;
+    font-size: 1.2rem;
+  }
+
+  .branch-detail {
     color: var(--color-text-green);
-  }
-
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .contact-item-link {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .contact-item-link:hover {
-    opacity: 0.85;
-  }
-
-  .icon {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .icon :global(svg) {
-    width: 100%;
-    height: 100%;
-  }
-
-  .contact-item p {
-    font-size: 1.25rem;
-    margin: 0;
+    line-height: 1.55;
+    margin: 0.25rem 0;
+    white-space: pre-line;
   }
 
   .facebook-link {
-    font-size: 1.25rem;
-    font-weight: 800;
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 1.05rem;
+    font-weight: 900;
     color: var(--color-text-green);
     text-decoration: underline;
-    margin-top: 0.5rem;
     transition: opacity 0.2s;
   }
 
@@ -258,14 +194,8 @@ import { VISIT_US_CONTENT } from '../../../data/visit-us-data';
     .bg-paw {
       display: none;
     }
-
-    .branch-header {
-      min-height: auto;
-    }
-
-    .contact-item p,
-    .facebook-link {
-      font-size: 1.1rem;
+    .location-card {
+      padding: 1.5rem 1.5rem;
     }
   }
 </style>

@@ -14,11 +14,11 @@ export interface NavLink {
 
 export const NAV_LINKS: readonly NavLink[] = [
   { name: 'Home', id: 'home', href: '/' },
-  { name: 'About Us', id: 'about', href: '/about/' },
-  { name: 'Contact Us', id: 'contact', href: '/contact/' },
+  { name: 'Our Services', id: 'about', href: '/#our-services' },
+  { name: 'Contact Us', id: 'contact', href: '/#visit-us' },
 ];
 
 export const QUICK_LINKS = [
-  { name: 'About Us', href: '/about/' },
-  { name: 'Contact Us', href: '/contact/' },
+  { name: 'Our Services', href: '/#our-services' },
+  { name: 'Contact Us', href: '/#visit-us' },
 ];

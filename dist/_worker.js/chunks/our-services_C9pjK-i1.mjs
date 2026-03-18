@@ -1,6 +1,7 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { c as createComponent, m as maybeRenderHead, r as renderComponent, a as renderTemplate, d as renderScript } from './astro/server_CUdWvnOA.mjs';
-import { c as createLucideIcon, j as jsxRuntimeExports, S as Stethoscope } from './stethoscope_BdKoRk3p.mjs';
+import { c as createComponent, m as maybeRenderHead, b as addAttribute, r as renderComponent, a as renderTemplate, e as renderScript } from './astro/server_DIoIlRSf.mjs';
+import { j as jsxRuntimeExports } from './jsx-runtime_DkXZAXSF.mjs';
+import { c as createLucideIcon, S as Stethoscope } from './stethoscope_WnD8rgKu.mjs';
 /* empty css                                */
 
 const SERVICES_CONTENT = {
@@ -13,7 +14,7 @@ const SERVICES_CONTENT = {
         { title: "Veterinary Consultation", iconName: "consultation" },
         { title: "Surgery", iconName: "surgery" },
         { title: "Vaccination", iconName: "vaccination" },
-        { title: "Radiography (X-ray)", iconName: "radiography" },
+        { title: "Radiography\n(X-Ray)", iconName: "radiography" },
         { title: "Grooming", iconName: "grooming" },
         { title: "Pet Hotel (Overnight Pet Boarding)", iconName: "petHotel" },
         { title: "Pharmacy", iconName: "pharmacy" },
@@ -228,7 +229,11 @@ function ServiceCardIcon({ name, className, size = 64 }) {
 }
 
 const $$OurServices = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate`${maybeRenderHead()}<section class="services-section" aria-labelledby="services-title" data-astro-cid-ovxdm7vi> <div class="container" data-astro-cid-ovxdm7vi> <h2 id="services-title" class="section-title" data-astro-cid-ovxdm7vi>${SERVICES_CONTENT.title}</h2> <div class="branches-grid" data-astro-cid-ovxdm7vi> ${SERVICES_CONTENT.branches.map((branch) => renderTemplate`<div class="branch-column" data-astro-cid-ovxdm7vi> <!-- Branch Header --> <div class="branch-header" data-astro-cid-ovxdm7vi> <h3 class="branch-name" data-astro-cid-ovxdm7vi>${branch.name}</h3> <p class="branch-address" data-astro-cid-ovxdm7vi>${branch.address}</p> </div> <!-- Service Cards Carousel --> <div class="carousel-wrapper" data-astro-cid-ovxdm7vi> <button type="button" class="nav-arrow left-arrow" aria-label="Previous service" data-astro-cid-ovxdm7vi> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-ovxdm7vi><polyline points="15 18 9 12 15 6" data-astro-cid-ovxdm7vi></polyline></svg> </button> <div class="carousel-track" data-astro-cid-ovxdm7vi> <div class="carousel-inner" data-astro-cid-ovxdm7vi> ${branch.services.map((service) => renderTemplate`<div class="service-card" data-astro-cid-ovxdm7vi> <div class="card-content" data-astro-cid-ovxdm7vi> <div class="icon-wrapper" data-astro-cid-ovxdm7vi> ${renderComponent($$result, "ServiceCardIcon", ServiceCardIcon, { "name": service.iconName, "size": 88, "data-astro-cid-ovxdm7vi": true })} </div> <h4 class="service-title" data-astro-cid-ovxdm7vi>${service.title}</h4> </div> </div>`)} </div> </div> <button type="button" class="nav-arrow right-arrow" aria-label="Next service" data-astro-cid-ovxdm7vi> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-ovxdm7vi><polyline points="9 18 15 12 9 6" data-astro-cid-ovxdm7vi></polyline></svg> </button> </div> </div>`)} </div> </div> </section>  ${renderScript($$result, "D:/jvc-web-ui/src/pages/home/sections/our-services.astro?astro&type=script&index=0&lang.ts")}`;
+  return renderTemplate`${maybeRenderHead()}<section id="our-services" class="services-section" aria-labelledby="services-title" data-astro-cid-ovxdm7vi> <div class="container" data-astro-cid-ovxdm7vi> <div class="header-group" data-astro-cid-ovxdm7vi> <h2 id="services-title" class="section-title" data-astro-cid-ovxdm7vi>${SERVICES_CONTENT.title}</h2> <div class="title-underline" data-astro-cid-ovxdm7vi></div> </div> <div class="branches-grid" data-astro-cid-ovxdm7vi> ${SERVICES_CONTENT.branches.map((branch) => {
+    const services = branch.services;
+    const duplicatedServices = [...services, ...services];
+    return renderTemplate`<div class="branch-column" data-astro-cid-ovxdm7vi> <header class="branch-header" data-astro-cid-ovxdm7vi> <h3 class="branch-name" data-astro-cid-ovxdm7vi>${branch.name}</h3> <p class="branch-address" data-astro-cid-ovxdm7vi>${branch.address}</p> </header> <!-- Service Cards Carousel (infinite scroll) --> <div class="carousel-wrapper" data-astro-cid-ovxdm7vi> <div class="carousel-track" role="region" aria-label="Service cards carousel" tabindex="0" data-astro-cid-ovxdm7vi> <div class="carousel-inner"${addAttribute(`width: ${duplicatedServices.length * 100}%; --card-count: ${duplicatedServices.length}`, "style")} data-astro-cid-ovxdm7vi> ${duplicatedServices.map((service, i) => renderTemplate`<div class="service-card"${addAttribute(i, "data-index")} data-astro-cid-ovxdm7vi> <div class="card-content" data-astro-cid-ovxdm7vi> <div class="icon-wrapper" data-astro-cid-ovxdm7vi> ${renderComponent($$result, "ServiceCardIcon", ServiceCardIcon, { "name": service.iconName, "size": 64, "data-astro-cid-ovxdm7vi": true })} </div> <h4 class="service-title" data-astro-cid-ovxdm7vi>${service.title}</h4> <div class="card-accent" data-astro-cid-ovxdm7vi></div> </div> </div>`)} </div> </div> <div class="services-dots" role="tablist" data-astro-cid-ovxdm7vi> ${services.map((_, i) => renderTemplate`<button type="button"${addAttribute(`dot ${i === 0 ? "active" : ""}`, "class")} role="tab"${addAttribute(i === 0, "aria-selected")}${addAttribute(i, "data-index")} data-astro-cid-ovxdm7vi></button>`)} </div> </div> </div>`;
+  })} </div> </div> </section>  ${renderScript($$result, "D:/jvc-web-ui/src/pages/home/sections/our-services.astro?astro&type=script&index=0&lang.ts")}`;
 }, "D:/jvc-web-ui/src/pages/home/sections/our-services.astro", void 0);
 
 const $$file = "D:/jvc-web-ui/src/pages/home/sections/our-services.astro";

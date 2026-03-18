@@ -1,6 +1,7 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { c as createComponent, m as maybeRenderHead, b as addAttribute, r as renderComponent, a as renderTemplate } from './astro/server_CUdWvnOA.mjs';
-import { c as createLucideIcon, j as jsxRuntimeExports, S as Stethoscope } from './stethoscope_BdKoRk3p.mjs';
+import { c as createComponent, m as maybeRenderHead, b as addAttribute, r as renderComponent, a as renderTemplate } from './astro/server_DIoIlRSf.mjs';
+import { j as jsxRuntimeExports } from './jsx-runtime_DkXZAXSF.mjs';
+import { c as createLucideIcon, S as Stethoscope } from './stethoscope_WnD8rgKu.mjs';
 /* empty css                              */
 
 /**
@@ -85,7 +86,7 @@ function WhyChooseIcon({ name, className, size = 50 }) {
 }
 
 const $$WhyChoose = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate`${maybeRenderHead()}<section class="why-choose-section"${addAttribute(`background-image: url(${WHY_CHOOSE_CONTENT.bgImage});`, "style")} aria-labelledby="why-choose-title" data-astro-cid-brys7kqb> <div class="container" data-astro-cid-brys7kqb> <!-- Title with Gold Outline Effect --> <h2 id="why-choose-title" class="section-title" data-astro-cid-brys7kqb>${WHY_CHOOSE_CONTENT.title}</h2> <!-- Features Grid --> <div class="features-grid" data-astro-cid-brys7kqb> ${WHY_CHOOSE_CONTENT.features.map((feature) => renderTemplate`<div class="feature-item" data-astro-cid-brys7kqb> <div class="feature-item-header" data-astro-cid-brys7kqb> <div class="icon-wrapper" data-astro-cid-brys7kqb> ${renderComponent($$result, "WhyChooseIcon", WhyChooseIcon, { "name": feature.iconName, "size": 72, "data-astro-cid-brys7kqb": true })} </div> </div> <p class="feature-text" data-astro-cid-brys7kqb>${feature.text}</p> </div>`)} </div> <!-- Footer Text --> <h3 class="footer-text" data-astro-cid-brys7kqb>${WHY_CHOOSE_CONTENT.footerText}</h3> </div> </section> `;
+  return renderTemplate`${maybeRenderHead()}<section id="why-choose" class="why-choose-section"${addAttribute(`background-image: linear-gradient(rgba(10, 68, 30, 0.4), rgba(10, 68, 30, 0.4)), url(${WHY_CHOOSE_CONTENT.bgImage});`, "style")} aria-labelledby="why-choose-title" data-astro-cid-brys7kqb> <div class="container" data-astro-cid-brys7kqb> <div class="header-group" data-astro-cid-brys7kqb> <span class="subtitle" data-astro-cid-brys7kqb>Quality You Can Trust</span> <h2 id="why-choose-title" class="section-title" data-astro-cid-brys7kqb>${WHY_CHOOSE_CONTENT.title}</h2> <div class="title-accent" data-astro-cid-brys7kqb></div> </div> <!-- Features Grid --> <div class="features-grid" data-astro-cid-brys7kqb> ${WHY_CHOOSE_CONTENT.features.map((feature) => renderTemplate`<div class="feature-item" data-astro-cid-brys7kqb> <div class="glass-overlay" aria-hidden="true" data-astro-cid-brys7kqb></div> <div class="card-inner" data-astro-cid-brys7kqb> <div class="icon-wrapper" data-astro-cid-brys7kqb> ${renderComponent($$result, "WhyChooseIcon", WhyChooseIcon, { "name": feature.iconName, "size": 56, "data-astro-cid-brys7kqb": true })} </div> <p class="feature-text" data-astro-cid-brys7kqb>${feature.text}</p> </div> </div>`)} </div> <!-- Footer Text --> <h3 class="footer-text" data-astro-cid-brys7kqb>${WHY_CHOOSE_CONTENT.footerText}</h3> </div> </section> `;
 }, "D:/jvc-web-ui/src/pages/home/sections/why-choose.astro", void 0);
 
 const $$file = "D:/jvc-web-ui/src/pages/home/sections/why-choose.astro";

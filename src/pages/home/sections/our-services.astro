@@ -3,9 +3,12 @@ import { SERVICES_CONTENT } from '../../../data/our-services-data';
 import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 ---
 
-<section class="services-section" aria-labelledby="services-title">
+<section id="our-services" class="services-section" aria-labelledby="services-title">
   <div class="container">
-    <h2 id="services-title" class="section-title">{SERVICES_CONTENT.title}</h2>
+    <div class="header-group">
+      <h2 id="services-title" class="section-title">{SERVICES_CONTENT.title}</h2>
+      <div class="title-underline"></div>
+    </div>
 
     <div class="branches-grid">
       {SERVICES_CONTENT.branches.map((branch) => {
@@ -13,11 +16,10 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
         const duplicatedServices = [...services, ...services];
         return (
         <div class="branch-column">
-          <!-- Branch Header -->
-          <div class="branch-header">
+          <header class="branch-header">
             <h3 class="branch-name">{branch.name}</h3>
             <p class="branch-address">{branch.address}</p>
-          </div>
+          </header>
 
           <!-- Service Cards Carousel (infinite scroll) -->
           <div class="carousel-wrapper">
@@ -27,22 +29,22 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
                   <div class="service-card" data-index={i}>
                     <div class="card-content">
                       <div class="icon-wrapper">
-                        <ServiceCardIcon name={service.iconName} size={88} />
+                        <ServiceCardIcon name={service.iconName} size={64} />
                       </div>
                       <h4 class="service-title">{service.title}</h4>
+                      <div class="card-accent"></div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div class="services-dots" role="tablist" aria-label={`Service cards for ${branch.name}`}>
+            <div class="services-dots" role="tablist">
               {services.map((_, i) => (
                 <button
                   type="button"
                   class={`dot ${i === 0 ? 'active' : ''}`}
                   role="tab"
-                  aria-label={`Service ${i + 1}`}
                   aria-selected={i === 0}
                   data-index={i}
                 />
@@ -57,46 +59,54 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 </section>
 
 <style>
-  /* COLORS & TOKENS */
   :root {
-    --color-bg-cream: #ede4c5;
-    --color-card-beige: #ddd2b0;
+    --color-bg-cream: #f9f7f0;
     --color-text-green: #0a441e;
-    --color-text-gold: #bb9313;
-    --color-arrow-bg: #c9bf9e;
+    --color-text-gold: #b38e11;
+    --transition-elegant: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .services-section {
     background-color: var(--color-bg-cream);
-    padding: 5rem 1.5rem;
+    padding: 8rem 1.5rem;
     font-family: 'Montserrat', sans-serif;
   }
 
   .container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
+  }
+
+  .header-group {
+    text-align: center;
+    margin-bottom: 5rem;
   }
 
   .section-title {
     font-family: 'Calistoga', serif;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4rem);
     color: var(--color-text-green);
-    text-align: center;
-    margin: 0 0 4rem 0;
-    line-height: 1.3;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .title-underline {
+    width: 60px;
+    height: 2px;
+    background: var(--color-text-gold);
+    margin: 1.5rem auto 0;
   }
 
   .branches-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 4rem;
+    gap: 6rem;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 850px) {
     .branches-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 3rem;
+      gap: 4rem;
     }
   }
 
@@ -108,27 +118,23 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 
   .branch-header {
     text-align: center;
-    margin-bottom: 2rem;
-    min-height: 80px;
+    margin-bottom: 3rem;
   }
 
   .branch-name {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--color-text-gold);
-    margin: 0 0 0.25rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-family: 'Calistoga', serif;
+    font-size: 1.75rem;
+    color: var(--color-text-green);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
   }
 
   .branch-address {
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-size: 0.9rem;
     color: var(--color-text-gold);
-    margin: 0;
-    line-height: 1.6;
-    white-space: pre-line;
-    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.8;
   }
 
   .carousel-wrapper {
@@ -141,8 +147,8 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
   .carousel-track {
     overflow-x: auto;
     overflow-y: hidden;
-    border-radius: 24px;
-    height: 280px;
+    border-radius: 18px;
+    height: 320px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -166,29 +172,40 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 
   .service-card {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--color-card-beige);
-    border-radius: 24px;
-    padding: 3rem 2rem;
-    height: 280px;
-    min-height: 280px;
+    background: #ffffff;
+    padding: 2.25rem 1.75rem;
+    height: 320px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
+    border: 1px solid rgba(187, 147, 19, 0.1);
+    border-radius: 22px;
+    box-shadow: 0 10px 40px -15px rgba(10, 68, 30, 0.1);
+    transition: var(--transition-elegant);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card:hover {
+    border-color: var(--color-text-gold);
+    box-shadow: 0 16px 46px -18px rgba(10, 68, 30, 0.18);
   }
 
   .card-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
     text-align: center;
+    gap: 2rem;
   }
 
   .icon-wrapper {
-    width: 88px;
-    height: 88px;
+    color: var(--color-text-gold);
+    transition: var(--transition-elegant);
+  }
+
+  .service-card:hover .icon-wrapper {
+    transform: scale(1.1);
     color: var(--color-text-green);
   }
 
@@ -198,43 +215,50 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
   }
 
   .service-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-family: 'Calistoga', serif;
+    font-size: 1.6rem;
     color: var(--color-text-green);
-    margin: 0;
-    line-height: 1.35;
-    white-space: pre-line;
+    font-weight: 400;
   }
 
   .carousel-track {
     touch-action: pan-x pan-y pinch-zoom;
   }
 
+  .card-accent {
+    width: 30px;
+    height: 1px;
+    background: var(--color-text-gold);
+    transition: var(--transition-elegant);
+  }
+
+  .service-card:hover .card-accent {
+    width: 60px;
+  }
+
   .services-dots {
     display: flex;
-    gap: 10px;
-    margin-top: 1rem;
+    gap: 12px;
+    margin-top: 2rem;
     justify-content: center;
     align-items: center;
   }
 
-  .services-dots .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 999px;
-    border: none;
+  .dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--color-text-gold);
+    border-radius: 50%;
+    background: transparent;
+    transition: var(--transition-elegant);
     padding: 0;
     cursor: pointer;
-    background-color: var(--color-text-gold);
-    opacity: 0.35;
-    transition: opacity 0.2s, transform 0.2s;
   }
 
-  .services-dots .dot[aria-selected="true"],
-  .services-dots .dot.active {
-    opacity: 1;
-    transform: scale(1.05);
+  .dot.active,
+  .dot[aria-selected="true"] {
+    background: var(--color-text-gold);
+    transform: scale(1.2);
   }
 </style>
 
@@ -322,6 +346,13 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
     function next() {
       const slideWidth = track.clientWidth || 0;
       if (slideWidth <= 0) return;
+      // If we're at the seam between the duplicated sets, wrap first
+      if (oneSetWidth <= 0) measure();
+      if (oneSetWidth > 0) {
+        const left = track.scrollLeft;
+        if (left >= oneSetWidth - 2) track.scrollLeft = left - oneSetWidth;
+        else if (left <= 0) track.scrollLeft = left + oneSetWidth;
+      }
       track.scrollBy({ left: slideWidth, behavior: 'smooth' });
     }
 
@@ -362,6 +393,8 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
     });
     ro.observe(track);
     measure();
+    // Avoid starting exactly at 0 (prevents immediate wrap logic jitter)
+    if (track.scrollLeft === 0) track.scrollLeft = 1;
     updateDots();
     startAuto();
   });

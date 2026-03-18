@@ -1,13 +1,6 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { a7 as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, a8 as renderSlot, m as maybeRenderHead, b as addAttribute, d as renderScript, a9 as renderHead } from './astro/server_CUdWvnOA.mjs';
+import { d as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, aq as renderSlot, m as maybeRenderHead, b as addAttribute, e as renderScript, ar as renderHead } from './astro/server_DIoIlRSf.mjs';
 /* empty css                         */
-import { $ as $$Hero, H as HERO_CONTENT } from './hero_B2bDSAa_.mjs';
-import { $ as $$WhyChoose } from './why-choose_DuKOPszx.mjs';
-import { $ as $$OurServices } from './our-services_BwoVulgY.mjs';
-import { $ as $$Testimonials } from './testimonials_ByZvSXE2.mjs';
-import { $ as $$PetGallery } from './pet-gallery_CeAoBX_p.mjs';
-import { $ as $$BookAppointment } from './book-appointment_CaOvtXcq.mjs';
-import { $ as $$VisitUs } from './visit-us_CxfBtj7q.mjs';
 
 const COLORS = {
   green: "#0a441e",
@@ -16,12 +9,12 @@ const COLORS = {
 const LOGO_URL = "/images/logo.png";
 const NAV_LINKS = [
   { name: "Home", id: "home", href: "/" },
-  { name: "About", id: "about", href: "/about/" },
-  { name: "Contact", id: "contact", href: "/contact/" }
+  { name: "Our Services", id: "about", href: "/#our-services" },
+  { name: "Contact Us", id: "contact", href: "/#visit-us" }
 ];
 const QUICK_LINKS = [
-  { name: "About", href: "/about/" },
-  { name: "Contact", href: "/contact/" }
+  { name: "Our Services", href: "/#our-services" },
+  { name: "Contact Us", href: "/#visit-us" }
 ];
 
 const index = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
@@ -56,10 +49,10 @@ const $$Navbar = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$3, $$props, $$slots);
   Astro2.self = $$Navbar;
   const currentPath = Astro2.url.pathname;
-  return renderTemplate`${maybeRenderHead()}<nav class="sticky top-0 z-50 bg-white shadow-md font-sans animate-slide-down"> <div class="container mx-auto px-4 lg:px-8"> <div class="flex justify-between items-center h-20"> <a href="/" class="flex items-center gap-3 cursor-pointer"> <img${addAttribute(LOGO_URL, "src")} alt="Jamir Veterinary Clinic" class="h-12 w-auto"> <span class="hidden sm:block text-lg font-bold whitespace-nowrap"${addAttribute({ color: COLORS.green }, "style")}>Jamir Veterinary Clinic</span> </a> <div class="hidden lg:flex items-center gap-1"> ${NAV_LINKS.map((link) => {
+  return renderTemplate`${maybeRenderHead()}<nav class="sticky top-0 z-50 bg-white shadow-md font-sans animate-slide-down"> <div class="container mx-auto px-4 lg:px-8"> <div class="flex justify-between items-center h-20"> <a href="/" class="flex items-center gap-2 sm:gap-3 cursor-pointer"> <img${addAttribute(LOGO_URL, "src")} alt="Jamir Veterinary Clinic" class="h-12 w-auto"> <span class="sm:hidden -ml-1 text-xs font-extrabold leading-tight tracking-wide uppercase"${addAttribute({ color: COLORS.green }, "style")}> <span class="block">Jamir</span> <span class="block">Veterinary</span> <span class="block">Clinic</span> </span> <span class="hidden sm:block text-lg font-bold whitespace-nowrap"${addAttribute({ color: COLORS.green }, "style")}>Jamir Veterinary Clinic</span> </a> <div class="hidden lg:flex items-center gap-1"> ${NAV_LINKS.map((link) => {
     const isActive = currentPath === link.href || link.href !== "/" && currentPath.startsWith(link.href);
-    return renderTemplate`<a${addAttribute(link.href, "href")}${addAttribute(`px-4 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap ${isActive ? "text-white" : "text-gray-600 hover:text-jvc-primary"}`, "class")}${addAttribute(isActive ? { backgroundColor: COLORS.green } : {}, "style")}> ${link.name} </a>`;
-  })} <div class="ml-4"> ${renderComponent($$result, "Button", $$Button, { "variant": "primary", "href": "/contact/", "className": "shadow-md", "style": { backgroundColor: COLORS.green, color: "white" } }, { "default": ($$result2) => renderTemplate`Book Now` })} </div> </div> <button id="mobile-menu-button" class="lg:hidden p-2 text-gray-600" aria-label="Toggle menu" type="button"> <svg id="menu-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path> </svg> </button> </div> </div> <div id="mobile-menu" class="lg:hidden bg-white border-t border-gray-100 hidden w-full shadow-lg"> <div class="px-4 py-4 space-y-1"> ${NAV_LINKS.map((link) => renderTemplate`<a${addAttribute(link.href, "href")}${addAttribute(`block px-4 py-3 text-base font-medium rounded-lg ${currentPath === link.href ? "text-white" : "text-gray-700 hover:bg-gray-100"}`, "class")}${addAttribute(currentPath === link.href ? { backgroundColor: COLORS.green } : {}, "style")}> ${link.name} </a>`)} <div class="pt-4"> ${renderComponent($$result, "Button", $$Button, { "variant": "primary", "href": "/contact/", "className": "w-full", "style": { backgroundColor: COLORS.green, color: "white" } }, { "default": ($$result2) => renderTemplate`Book Now` })} </div> </div> </div> </nav> ${renderScript($$result, "D:/jvc-web-ui/src/components/layout/Navbar.astro?astro&type=script&index=0&lang.ts")}`;
+    return renderTemplate`<a${addAttribute(link.href, "href")}${addAttribute(`px-4 py-2 text-sm font-semibold rounded-md whitespace-nowrap transition-all duration-200 ${isActive ? "text-jvc-primary" : "text-gray-600 hover:text-jvc-primary hover:bg-gray-50 hover:-translate-y-[1px]"}`, "class")}> ${link.name} </a>`;
+  })} <div class="ml-4"> ${renderComponent($$result, "Button", $$Button, { "variant": "primary", "href": "/#book-appointment", "className": "shadow-md", "style": { backgroundColor: COLORS.green, color: "white" } }, { "default": ($$result2) => renderTemplate`Book Now` })} </div> </div> <button id="mobile-menu-button" class="lg:hidden p-2 text-gray-600" aria-label="Toggle menu" type="button"> <svg id="menu-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path> </svg> </button> </div> </div> <div id="mobile-menu" class="lg:hidden bg-white border-t border-gray-100 hidden w-full shadow-lg"> <div class="px-4 py-4 space-y-1"> ${NAV_LINKS.map((link) => renderTemplate`<a${addAttribute(link.href, "href")}${addAttribute(`block px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 ${currentPath === link.href ? "text-jvc-primary bg-gray-50 border border-gray-100" : "text-gray-700 hover:bg-gray-100 hover:-translate-y-[1px]"}`, "class")}> ${link.name} </a>`)} <div class="pt-4"> ${renderComponent($$result, "Button", $$Button, { "variant": "primary", "href": "/#book-appointment", "className": "w-full", "style": { backgroundColor: COLORS.green, color: "white" } }, { "default": ($$result2) => renderTemplate`Book Now` })} </div> </div> </div> </nav> ${renderScript($$result, "D:/jvc-web-ui/src/components/layout/Navbar.astro?astro&type=script&index=0&lang.ts")}`;
 }, "D:/jvc-web-ui/src/components/layout/Navbar.astro", void 0);
 
 const $$Footer = createComponent(($$result, $$props, $$slots) => {
@@ -98,18 +91,4 @@ const $$HomeLayout = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": title, "description": description }, { "default": ($$result2) => renderTemplate` ${renderSlot($$result2, $$slots["default"])} ` })}`;
 }, "D:/jvc-web-ui/src/layouts/HomeLayout.astro", void 0);
 
-const $$Index = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate`${renderComponent($$result, "HomeLayout", $$HomeLayout, { "title": HERO_CONTENT.title, "description": HERO_CONTENT.description }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="animate-fade-in font-sans"> ${renderComponent($$result2, "HeroSection", $$Hero, {})} ${renderComponent($$result2, "WhyChooseSection", $$WhyChoose, {})} ${renderComponent($$result2, "OurServicesSection", $$OurServices, {})} ${renderComponent($$result2, "TestimonialsSection", $$Testimonials, {})} ${renderComponent($$result2, "PetGallerySection", $$PetGallery, {})} ${renderComponent($$result2, "BookAppointmentSection", $$BookAppointment, {})} ${renderComponent($$result2, "VisitUsSection", $$VisitUs, {})} </div> ` })}`;
-}, "D:/jvc-web-ui/src/pages/home/index.astro", void 0);
-
-const $$file = "D:/jvc-web-ui/src/pages/home/index.astro";
-const $$url = "/home";
-
-const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-  __proto__: null,
-  default: $$Index,
-  file: $$file,
-  url: $$url
-}, Symbol.toStringTag, { value: 'Module' }));
-
-export { $$Index as $, _page as _ };
+export { $$HomeLayout as $ };

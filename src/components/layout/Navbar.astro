@@ -24,17 +24,18 @@ const currentPath = Astro.url.pathname;
           return (
             <a
               href={link.href}
-              class={`px-4 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap ${
-                isActive ? 'text-white' : 'text-gray-600 hover:text-jvc-primary'
+              class={`px-4 py-2 text-sm font-semibold rounded-md whitespace-nowrap transition-all duration-200 ${
+                isActive
+                  ? 'text-jvc-primary'
+                  : 'text-gray-600 hover:text-jvc-primary hover:bg-gray-50 hover:-translate-y-[1px]'
               }`}
-              style={isActive ? { backgroundColor: COLORS.green } : {}}
             >
               {link.name}
             </a>
           );
         })}
         <div class="ml-4">
-          <Button variant="primary" href="/contact/" className="shadow-md" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
+          <Button variant="primary" href="/#book-appointment" className="shadow-md" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
         </div>
       </div>
 
@@ -54,16 +55,17 @@ const currentPath = Astro.url.pathname;
       {NAV_LINKS.map((link) => (
         <a
           href={link.href}
-          class={`block px-4 py-3 text-base font-medium rounded-lg ${
-            currentPath === link.href ? 'text-white' : 'text-gray-700 hover:bg-gray-100'
+          class={`block px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 ${
+            currentPath === link.href
+              ? 'text-jvc-primary bg-gray-50 border border-gray-100'
+              : 'text-gray-700 hover:bg-gray-100 hover:-translate-y-[1px]'
           }`}
-          style={currentPath === link.href ? { backgroundColor: COLORS.green } : {}}
         >
           {link.name}
         </a>
       ))}
       <div class="pt-4">
-        <Button variant="primary" href="/contact/" className="w-full" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
+        <Button variant="primary" href="/#book-appointment" className="w-full" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
       </div>
     </div>
   </div>

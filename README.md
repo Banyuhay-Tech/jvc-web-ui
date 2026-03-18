@@ -43,3 +43,12 @@ Output is in `dist/`.
 - **Node version:** 18 or 20 (set in Cloudflare Pages dashboard or add a `.nvmrc` with `18` or `20`)
 
 Connect your Git repo in the Cloudflare Pages dashboard, or use the optional `wrangler.toml` and deploy via Wrangler.
+
+## Supabase (appointments)
+
+This project expects these environment variables (do **not** commit them):
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
+
+For local development, create a `.env` file in the project root. For Cloudflare Pages, add them in your project’s environment variables / secrets.

@@ -1,6 +1,8 @@
 ---
 import HomeLayout from '../../layouts/HomeLayout.astro';
 import { VISIT_US_CONTENT } from '../../data/visit-us-data';
+
+const contactStatus = Astro.url.searchParams.get('contact');
 ---
 
 <HomeLayout title="Contact - Jamir Veterinary Clinic" description="Have a question or want to book a visit? We'd love to hear from you.">
@@ -22,7 +24,23 @@ import { VISIT_US_CONTENT } from '../../data/visit-us-data';
 
       <div class="contact-grid">
         <section class="form-container">
-          <form class="contact-form">
+          <h2 id="contact-form" class="sr-only">Contact form</h2>
+          {
+            contactStatus === 'success' && (
+              <div class="form-alert form-alert-success" role="status" aria-live="polite">
+                Thanks! Your message has been sent. We’ll get back to you soon.
+              </div>
+            )
+          }
+          {
+            contactStatus === 'error' && (
+              <div class="form-alert form-alert-error" role="alert">
+                Something went wrong. Please try again.
+              </div>
+            )
+          }
+          <form class="contact-form" action="/api/contact" method="POST">
+            <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <div class="input-group">
               <label for="name">Your Name</label>
               <input type="text" id="name" name="name" placeholder="John Doe" required />
@@ -149,6 +167,47 @@ import { VISIT_US_CONTENT } from '../../data/visit-us-data';
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-alert {
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin: 0 0 1.5rem 0;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .form-alert-success {
+    background: rgba(10, 68, 30, 0.08);
+    border: 2px solid rgba(10, 68, 30, 0.25);
+    color: var(--color-text-green);
+  }
+
+  .form-alert-error {
+    background: rgba(187, 147, 19, 0.18);
+    border: 2px solid rgba(187, 147, 19, 0.4);
+    color: var(--color-text-green);
   }
 
   .input-group {
