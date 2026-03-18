@@ -13,7 +13,6 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
     <div class="branches-grid">
       {SERVICES_CONTENT.branches.map((branch) => {
         const services = branch.services;
-        const duplicatedServices = [...services, ...services];
         return (
         <div class="branch-column">
           <header class="branch-header">
@@ -21,11 +20,11 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
             <p class="branch-address">{branch.address}</p>
           </header>
 
-          <!-- Service Cards Carousel (infinite scroll) -->
+          <!-- Service Cards Carousel -->
           <div class="carousel-wrapper">
-            <div class="carousel-track" role="region" aria-label="Service cards carousel" tabindex="0">
-              <div class="carousel-inner" style={`width: ${duplicatedServices.length * 100}%; --card-count: ${duplicatedServices.length}`}>
-                {duplicatedServices.map((service, i) => (
+            <div class="carousel-track" role="region" aria-label="Service cards carousel">
+              <div class="carousel-inner">
+                {services.map((service, i) => (
                   <div class="service-card" data-index={i}>
                     <div class="card-content">
                       <div class="icon-wrapper">
@@ -145,29 +144,20 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
   }
 
   .carousel-track {
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     border-radius: 18px;
     height: 320px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .carousel-track::-webkit-scrollbar {
-    display: none;
   }
 
   .carousel-inner {
     display: flex;
     height: 100%;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .carousel-inner .service-card {
-    flex: 0 0 calc(100% / var(--card-count, 16));
-    min-width: calc(100% / var(--card-count, 16));
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    flex: 0 0 100%;
+    min-width: 100%;
   }
 
   .service-card {
@@ -221,10 +211,6 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
     font-weight: 400;
   }
 
-  .carousel-track {
-    touch-action: pan-x pan-y pinch-zoom;
-  }
-
   .card-accent {
     width: 30px;
     height: 1px;
@@ -264,96 +250,27 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
 
 <script>
   document.querySelectorAll('.branch-column').forEach((column) => {
-    const trackEl = column.querySelector('.carousel-track') as HTMLElement | null;
     const inner = column.querySelector('.carousel-inner') as HTMLElement | null;
     const cards = column.querySelectorAll('.carousel-inner .service-card');
     const dots = column.querySelectorAll('.services-dots .dot') as NodeListOf<HTMLButtonElement>;
 
-    if (!trackEl || !inner || cards.length === 0) return;
-    const track = trackEl;
+    if (!inner || cards.length === 0) return;
 
-    const totalCards = cards.length;
-    const realCount = Math.max(1, Math.floor(totalCards / 2));
-    let oneSetWidth = 0;
-    let ticking = false;
+    const count = cards.length;
+    let current = 0;
     let autoTimer: ReturnType<typeof setInterval> | null = null;
 
-    function measure() {
-      oneSetWidth = track.scrollWidth / 2;
-    }
-
-    function getRealIndexFromScroll() {
-      const slideWidth = track.clientWidth || 1;
-      const approx = Math.round(track.scrollLeft / slideWidth);
-      return ((approx % realCount) + realCount) % realCount;
-    }
-
-    function updateDots() {
-      if (!dots || dots.length === 0) return;
-      const active = getRealIndexFromScroll();
+    function goTo(index: number) {
+      current = ((index % count) + count) % count;
+      inner.style.transform = `translateX(-${current * 100}%)`;
       dots.forEach((dot, i) => {
-        dot.setAttribute('aria-selected', i === active ? 'true' : 'false');
-        dot.classList.toggle('active', i === active);
+        dot.classList.toggle('active', i === current);
+        dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
       });
     }
 
-    function wrapScroll() {
-      if (oneSetWidth <= 0) measure();
-      const left = track.scrollLeft;
-      if (oneSetWidth <= 0) {
-        ticking = false;
-        return;
-      }
-      if (left >= oneSetWidth - 2) {
-        track.scrollLeft = left - oneSetWidth;
-      } else if (left <= 0) {
-        track.scrollLeft = left + oneSetWidth;
-      }
-      updateDots();
-      ticking = false;
-    }
-
-    function onScroll() {
-      if (!ticking) {
-        requestAnimationFrame(wrapScroll);
-        ticking = true;
-      }
-    }
-
-    track.addEventListener('scroll', onScroll, { passive: true });
-
-    function onWheel(e: WheelEvent) {
-      if (oneSetWidth <= 0) return;
-      const left = track.scrollLeft;
-      if (left <= 1 && e.deltaX > 0) {
-        track.scrollLeft = oneSetWidth;
-        e.preventDefault();
-      } else if (left >= oneSetWidth - 1 && e.deltaX < 0) {
-        track.scrollLeft = left - oneSetWidth;
-        e.preventDefault();
-      }
-    }
-
-    track.addEventListener('wheel', onWheel, { passive: false });
-
-    function goToRealIndex(realIndex: number, behavior: ScrollBehavior = 'smooth') {
-      const slideWidth = track.clientWidth || 0;
-      const target = Math.max(0, Math.min(realCount - 1, realIndex)) * slideWidth;
-      track.scrollTo({ left: target, behavior });
-      updateDots();
-    }
-
     function next() {
-      const slideWidth = track.clientWidth || 0;
-      if (slideWidth <= 0) return;
-      // If we're at the seam between the duplicated sets, wrap first
-      if (oneSetWidth <= 0) measure();
-      if (oneSetWidth > 0) {
-        const left = track.scrollLeft;
-        if (left >= oneSetWidth - 2) track.scrollLeft = left - oneSetWidth;
-        else if (left <= 0) track.scrollLeft = left + oneSetWidth;
-      }
-      track.scrollBy({ left: slideWidth, behavior: 'smooth' });
+      goTo(current + 1);
     }
 
     function startAuto() {
@@ -369,33 +286,37 @@ import { ServiceCardIcon } from '../../../components/ui/ServiceCardIcon';
       autoTimer = null;
     }
 
-    track.addEventListener('mouseenter', stopAuto);
-    track.addEventListener('mouseleave', startAuto);
-    track.addEventListener('focusin', stopAuto);
-    track.addEventListener('focusout', startAuto);
-    track.addEventListener('pointerdown', stopAuto, { passive: true });
-    track.addEventListener('pointerup', startAuto, { passive: true });
-    track.addEventListener('touchstart', stopAuto, { passive: true });
-    track.addEventListener('touchend', startAuto, { passive: true });
-
-    dots?.forEach((dot) => {
+    dots.forEach((dot) => {
       dot.addEventListener('click', () => {
-        const idx = Number(dot.dataset.index ?? '0');
         stopAuto();
-        goToRealIndex(idx, 'smooth');
+        goTo(Number(dot.dataset.index ?? 0));
         startAuto();
       });
     });
 
-    const ro = new ResizeObserver(() => {
-      measure();
-      updateDots();
-    });
-    ro.observe(track);
-    measure();
-    // Avoid starting exactly at 0 (prevents immediate wrap logic jitter)
-    if (track.scrollLeft === 0) track.scrollLeft = 1;
-    updateDots();
+    const wrapper = column.querySelector('.carousel-wrapper') as HTMLElement;
+    if (wrapper) {
+      wrapper.addEventListener('mouseenter', stopAuto);
+      wrapper.addEventListener('mouseleave', startAuto);
+      wrapper.addEventListener('touchstart', stopAuto, { passive: true });
+      wrapper.addEventListener('touchend', startAuto, { passive: true });
+    }
+
+    let touchStartX = 0;
+    inner.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    inner.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        stopAuto();
+        goTo(diff > 0 ? current + 1 : current - 1);
+        startAuto();
+      }
+    }, { passive: true });
+
+    goTo(0);
     startAuto();
   });
 </script>
