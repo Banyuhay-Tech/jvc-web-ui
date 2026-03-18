@@ -1,15 +1,13 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { g as getSupabaseAdminClient } from '../../../../chunks/server_CmQzTMpY.mjs';
+import { g as getAdminPassword, a as getSupabaseAdminClient } from '../../../../chunks/server_CoaZ9Z-h.mjs';
 export { r as renderers } from '../../../../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
-function getAdminPassword() {
-  return "JVC@ndBanyuhay2026";
-}
 const allowedStatuses = /* @__PURE__ */ new Set(["new", "confirmed", "completed", "cancelled"]);
-const PATCH = async ({ request, params }) => {
+const PATCH = async ({ request, params, locals }) => {
   try {
+    const runtimeEnv = locals.runtime ? locals.runtime?.env : void 0;
     const provided = request.headers.get("x-admin-password") ?? "";
-    const expected = getAdminPassword();
+    const expected = getAdminPassword(runtimeEnv);
     if (provided !== expected) {
       return new Response(JSON.stringify({ error: "unauthorized" }), {
         status: 401,
@@ -49,7 +47,7 @@ const PATCH = async ({ request, params }) => {
         headers: { "content-type": "application/json; charset=utf-8" }
       });
     }
-    const supabase = getSupabaseAdminClient();
+    const supabase = getSupabaseAdminClient(runtimeEnv);
     const { data, error } = await supabase.from("appointment_requests").update({ status }).eq("id", id).select("id,status").single();
     if (error) {
       return new Response(JSON.stringify({ error: error.message }), {

@@ -30,7 +30,10 @@ function redirectToBooking(status: 'success' | 'error') {
 }
 
 export const POST: APIRoute = async (context) => {
-  const { request } = context;
+  const { request, locals } = context;
+  const runtimeEnv = (locals as Record<string, unknown>).runtime
+    ? ((locals as Record<string, { env?: Record<string, unknown> }>).runtime?.env)
+    : undefined;
 
   const contentType = request.headers.get('content-type') ?? '';
   if (!contentType.includes('application/x-www-form-urlencoded') && !contentType.includes('multipart/form-data')) {
@@ -61,7 +64,7 @@ export const POST: APIRoute = async (context) => {
   const sourcePage = request.headers.get('referer') ?? '/';
   const ip = 'clientAddress' in context ? (context as { clientAddress?: string }).clientAddress ?? null : null;
 
-  const supabase = getSupabaseAdminClient();
+  const supabase = getSupabaseAdminClient(runtimeEnv);
   const { error } = await supabase.from('appointment_requests').insert({
     customer_name: customerName,
     email,

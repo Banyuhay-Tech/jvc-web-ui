@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { g as getSupabaseAdminClient } from '../../chunks/server_CmQzTMpY.mjs';
+import { a as getSupabaseAdminClient } from '../../chunks/server_CoaZ9Z-h.mjs';
 export { r as renderers } from '../../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
 function asNonEmptyString(value) {
@@ -25,7 +25,8 @@ function redirectToBooking(status) {
   });
 }
 const POST = async (context) => {
-  const { request } = context;
+  const { request, locals } = context;
+  const runtimeEnv = locals.runtime ? locals.runtime?.env : void 0;
   const contentType = request.headers.get("content-type") ?? "";
   if (!contentType.includes("application/x-www-form-urlencoded") && !contentType.includes("multipart/form-data")) {
     return new Response("Unsupported content type", { status: 415 });
@@ -47,7 +48,7 @@ const POST = async (context) => {
   const userAgent = request.headers.get("user-agent") ?? null;
   const sourcePage = request.headers.get("referer") ?? "/";
   const ip = "clientAddress" in context ? context.clientAddress ?? null : null;
-  const supabase = getSupabaseAdminClient();
+  const supabase = getSupabaseAdminClient(runtimeEnv);
   const { error } = await supabase.from("appointment_requests").insert({
     customer_name: customerName,
     email,

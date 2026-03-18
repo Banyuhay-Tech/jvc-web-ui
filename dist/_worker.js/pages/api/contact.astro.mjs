@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { g as getSupabaseAdminClient } from '../../chunks/server_CmQzTMpY.mjs';
+import { a as getSupabaseAdminClient } from '../../chunks/server_CoaZ9Z-h.mjs';
 export { r as renderers } from '../../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
 function asNonEmptyString(value) {
@@ -15,7 +15,8 @@ function redirectToContact(status) {
     }
   });
 }
-const POST = async ({ request }) => {
+const POST = async ({ request, locals }) => {
+  const runtimeEnv = locals.runtime ? locals.runtime?.env : void 0;
   const contentType = request.headers.get("content-type") ?? "";
   if (!contentType.includes("application/x-www-form-urlencoded") && !contentType.includes("multipart/form-data")) {
     return new Response("Unsupported content type", { status: 415 });
@@ -30,7 +31,7 @@ const POST = async ({ request }) => {
   if (!name || !email || !message) return redirectToContact("error");
   const userAgent = request.headers.get("user-agent") ?? null;
   const sourcePage = request.headers.get("referer") ?? "/contact";
-  const supabase = getSupabaseAdminClient();
+  const supabase = getSupabaseAdminClient(runtimeEnv);
   const { error } = await supabase.from("contact_messages").insert({
     name,
     email,

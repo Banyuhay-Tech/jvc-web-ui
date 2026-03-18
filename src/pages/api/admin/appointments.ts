@@ -1,16 +1,14 @@
 import type { APIRoute } from 'astro';
-import { getSupabaseAdminClient } from '../../../lib/supabase/server';
+import { getSupabaseAdminClient, getAdminPassword } from '../../../lib/supabase/server';
 
-function getAdminPassword(): string {
-  const fromEnv = import.meta.env.ADMIN_PASSWORD;
-  if (typeof fromEnv === 'string' && fromEnv.length > 0) return fromEnv;
-  return 'JVC@ndBanyuhay2026';
-}
-
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request, locals }) => {
   try {
+    const runtimeEnv = (locals as Record<string, unknown>).runtime
+      ? ((locals as Record<string, { env?: Record<string, unknown> }>).runtime?.env)
+      : undefined;
+
     const provided = request.headers.get('x-admin-password') ?? '';
-    const expected = getAdminPassword();
+    const expected = getAdminPassword(runtimeEnv);
 
     if (provided !== expected) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), {
@@ -22,7 +20,7 @@ export const GET: APIRoute = async ({ request }) => {
       });
     }
 
-    const supabase = getSupabaseAdminClient();
+    const supabase = getSupabaseAdminClient(runtimeEnv);
     const { data, error } = await supabase
       .from('appointment_requests')
       .select(
@@ -59,4 +57,3 @@ export const GET: APIRoute = async ({ request }) => {
     });
   }
 };
-

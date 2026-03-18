@@ -1,14 +1,12 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { g as getSupabaseAdminClient } from '../../../chunks/server_CmQzTMpY.mjs';
+import { g as getAdminPassword, a as getSupabaseAdminClient } from '../../../chunks/server_CoaZ9Z-h.mjs';
 export { r as renderers } from '../../../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
-function getAdminPassword() {
-  return "JVC@ndBanyuhay2026";
-}
-const GET = async ({ request }) => {
+const GET = async ({ request, locals }) => {
   try {
+    const runtimeEnv = locals.runtime ? locals.runtime?.env : void 0;
     const provided = request.headers.get("x-admin-password") ?? "";
-    const expected = getAdminPassword();
+    const expected = getAdminPassword(runtimeEnv);
     if (provided !== expected) {
       return new Response(JSON.stringify({ error: "unauthorized" }), {
         status: 401,
@@ -18,7 +16,7 @@ const GET = async ({ request }) => {
         }
       });
     }
-    const supabase = getSupabaseAdminClient();
+    const supabase = getSupabaseAdminClient(runtimeEnv);
     const { data, error } = await supabase.from("appointment_requests").select(
       "id,created_at,customer_name,email,phone,pet_details,service_needed,branch,requested_datetime,status,notes,source_page,ip,user_agent"
     ).order("created_at", { ascending: false }).limit(500);

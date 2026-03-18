@@ -16,7 +16,11 @@ function redirectToContact(status: 'success' | 'error') {
   });
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
+  const runtimeEnv = (locals as Record<string, unknown>).runtime
+    ? ((locals as Record<string, { env?: Record<string, unknown> }>).runtime?.env)
+    : undefined;
+
   const contentType = request.headers.get('content-type') ?? '';
   if (!contentType.includes('application/x-www-form-urlencoded') && !contentType.includes('multipart/form-data')) {
     return new Response('Unsupported content type', { status: 415 });
@@ -38,7 +42,7 @@ export const POST: APIRoute = async ({ request }) => {
   const userAgent = request.headers.get('user-agent') ?? null;
   const sourcePage = request.headers.get('referer') ?? '/contact';
 
-  const supabase = getSupabaseAdminClient();
+  const supabase = getSupabaseAdminClient(runtimeEnv);
   const { error } = await supabase.from('contact_messages').insert({
     name,
     email,

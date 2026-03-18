@@ -14787,19 +14787,36 @@ function shouldShowDeprecationWarning() {
 if (shouldShowDeprecationWarning()) console.warn("⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217");
 
 const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SITE": "https://jvc.pages.dev", "SSR": true};
-function requireEnv(name) {
-  const value = Object.assign(__vite_import_meta_env__, { SUPABASE_URL: "https://gpdgpdiezvmufkwzlggr.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZGdwZGllenZtdWZrd3psZ2dyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzgxNjAzOSwiZXhwIjoyMDg5MzkyMDM5fQ.HJJQF3tdI8chdpqsipg-dSP6F8sO-in3DUnoIc2oTqA" })[name];
-  if (typeof value !== "string" || value.length === 0) {
-    throw new Error(`Missing required environment variable: ${name}`);
+function getEnv(name, runtimeEnv) {
+  if (runtimeEnv) {
+    const v = runtimeEnv[name];
+    if (typeof v === "string" && v.length > 0) return v;
   }
-  return value;
+  try {
+    const v = Object.assign(__vite_import_meta_env__, { SUPABASE_URL: "https://gpdgpdiezvmufkwzlggr.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZGdwZGllenZtdWZrd3psZ2dyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzgxNjAzOSwiZXhwIjoyMDg5MzkyMDM5fQ.HJJQF3tdI8chdpqsipg-dSP6F8sO-in3DUnoIc2oTqA" })[name];
+    if (typeof v === "string" && v.length > 0) return v;
+  } catch {
+  }
+  try {
+    const v = process.env[name];
+    if (typeof v === "string" && v.length > 0) return v;
+  } catch {
+  }
+  throw new Error(`Missing required environment variable: ${name}`);
 }
-function getSupabaseAdminClient() {
-  const url = requireEnv("SUPABASE_URL");
-  const serviceRoleKey = requireEnv("SUPABASE_SERVICE_ROLE_KEY");
+function getSupabaseAdminClient(runtimeEnv) {
+  const url = getEnv("SUPABASE_URL", runtimeEnv);
+  const serviceRoleKey = getEnv("SUPABASE_SERVICE_ROLE_KEY", runtimeEnv);
   return createClient(url, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false }
   });
 }
+function getAdminPassword(runtimeEnv) {
+  try {
+    return getEnv("ADMIN_PASSWORD", runtimeEnv);
+  } catch {
+    return "JVC@ndBanyuhay2026";
+  }
+}
 
-export { getSupabaseAdminClient as g };
+export { getSupabaseAdminClient as a, getAdminPassword as g };

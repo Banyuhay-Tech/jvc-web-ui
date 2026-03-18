@@ -1,18 +1,16 @@
 import type { APIRoute } from 'astro';
-import { getSupabaseAdminClient } from '../../../../lib/supabase/server';
-
-function getAdminPassword(): string {
-  const fromEnv = import.meta.env.ADMIN_PASSWORD;
-  if (typeof fromEnv === 'string' && fromEnv.length > 0) return fromEnv;
-  return 'JVC@ndBanyuhay2026';
-}
+import { getSupabaseAdminClient, getAdminPassword } from '../../../../lib/supabase/server';
 
 const allowedStatuses = new Set(['new', 'confirmed', 'completed', 'cancelled']);
 
-export const PATCH: APIRoute = async ({ request, params }) => {
+export const PATCH: APIRoute = async ({ request, params, locals }) => {
   try {
+    const runtimeEnv = (locals as Record<string, unknown>).runtime
+      ? ((locals as Record<string, { env?: Record<string, unknown> }>).runtime?.env)
+      : undefined;
+
     const provided = request.headers.get('x-admin-password') ?? '';
-    const expected = getAdminPassword();
+    const expected = getAdminPassword(runtimeEnv);
     if (provided !== expected) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), {
         status: 401,
@@ -57,7 +55,7 @@ export const PATCH: APIRoute = async ({ request, params }) => {
       });
     }
 
-    const supabase = getSupabaseAdminClient();
+    const supabase = getSupabaseAdminClient(runtimeEnv);
     const { data, error } = await supabase
       .from('appointment_requests')
       .update({ status })
@@ -90,4 +88,3 @@ export const PATCH: APIRoute = async ({ request, params }) => {
     });
   }
 };
-
