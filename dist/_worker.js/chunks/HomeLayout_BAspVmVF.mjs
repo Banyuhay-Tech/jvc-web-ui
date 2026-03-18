@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { d as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, aq as renderSlot, m as maybeRenderHead, b as addAttribute, e as renderScript, ar as renderHead } from './astro/server_DIoIlRSf.mjs';
+import { d as createAstro, c as createComponent, r as renderComponent, a8 as renderSlot, a as renderTemplate, m as maybeRenderHead, b as addAttribute, e as renderScript, a9 as renderHead } from './astro/server_D6c3p7-M.mjs';
 /* empty css                         */
 
 const COLORS = {

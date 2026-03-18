@@ -1,6 +1,6 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
 import { g as getSupabaseAdminClient } from '../../../../chunks/server_CmQzTMpY.mjs';
-export { r as renderers } from '../../../../chunks/_@astro-renderers_jEiFjMJ7.mjs';
+export { r as renderers } from '../../../../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
 function getAdminPassword() {
   return "JVC@ndBanyuhay2026";

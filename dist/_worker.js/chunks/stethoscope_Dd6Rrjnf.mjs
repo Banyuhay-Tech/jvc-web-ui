@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { a as reactExports } from './_@astro-renderers_jEiFjMJ7.mjs';
+import { a as reactExports } from './_@astro-renderers_BwPN5SeW.mjs';
 
 /**
  * @license lucide-react v0.460.0 - ISC

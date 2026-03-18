@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { c as createComponent, m as maybeRenderHead, a as renderTemplate, b as addAttribute, e as renderScript } from './astro/server_DIoIlRSf.mjs';
+import { c as createComponent, m as maybeRenderHead, a as renderTemplate, b as addAttribute, e as renderScript } from './astro/server_D6c3p7-M.mjs';
 /* empty css                                */
 
 const TESTIMONIALS_CONTENT = {

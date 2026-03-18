@@ -1,8 +1,8 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DIoIlRSf.mjs';
-import { $ as $$HomeLayout } from '../chunks/HomeLayout_PXZGCfgy.mjs';
+import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_D6c3p7-M.mjs';
+import { $ as $$HomeLayout } from '../chunks/HomeLayout_BAspVmVF.mjs';
 /* empty css                                 */
-export { r as renderers } from '../chunks/_@astro-renderers_jEiFjMJ7.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
 const ABOUT_CONTENT = {
   title: "Rooted in Tradition",

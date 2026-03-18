@@ -1,7 +1,7 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { r as renderers } from './chunks/_@astro-renderers_jEiFjMJ7.mjs';
-import { c as createExports, s as serverEntrypointModule } from './chunks/_@astrojs-ssr-adapter_CKzrcu-1.mjs';
-import { manifest } from './manifest_7bonqctV.mjs';
+import { r as renderers } from './chunks/_@astro-renderers_BwPN5SeW.mjs';
+import { c as createExports, s as serverEntrypointModule } from './chunks/_@astrojs-ssr-adapter_n-uS71Mu.mjs';
+import { manifest } from './manifest_CErrdABp.mjs';
 
 const serverIslandMap = new Map();;
 
@@ -23,7 +23,7 @@ const _page14 = () => import('./pages/home/sections/why-choose.astro.mjs');
 const _page15 = () => import('./pages/home.astro.mjs');
 const _page16 = () => import('./pages/index.astro.mjs');
 const pageMap = new Map([
-    ["node_modules/@astrojs/cloudflare/dist/entrypoints/image-endpoint.js", _page0],
+    ["node_modules/.pnpm/@astrojs+cloudflare@12.6.0__7bec129791222de814ab0298c905388c/node_modules/@astrojs/cloudflare/dist/entrypoints/image-endpoint.js", _page0],
     ["src/pages/about/index.astro", _page1],
     ["src/pages/admin/index.astro", _page2],
     ["src/pages/api/admin/appointments/[id].ts", _page3],

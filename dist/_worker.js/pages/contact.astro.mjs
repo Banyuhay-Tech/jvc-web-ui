@@ -1,9 +1,9 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { d as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DIoIlRSf.mjs';
-import { $ as $$HomeLayout } from '../chunks/HomeLayout_PXZGCfgy.mjs';
+import { d as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_D6c3p7-M.mjs';
+import { $ as $$HomeLayout } from '../chunks/HomeLayout_BAspVmVF.mjs';
 import { V as VISIT_US_CONTENT } from '../chunks/visit-us-data_tZ-zGjgC.mjs';
 /* empty css                                 */
-export { r as renderers } from '../chunks/_@astro-renderers_jEiFjMJ7.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_BwPN5SeW.mjs';
 
 const $$Astro = createAstro("https://jvc.pages.dev");
 const $$Index = createComponent(($$result, $$props, $$slots) => {

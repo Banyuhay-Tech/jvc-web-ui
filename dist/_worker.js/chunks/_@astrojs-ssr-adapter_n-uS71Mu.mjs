@@ -1,10 +1,8 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { f as fileExtension, j as joinPaths, s as slash, p as prependForwardSlash, r as removeTrailingForwardSlash, a as appendForwardSlash, i as isInternalPath, c as collapseDuplicateTrailingSlashes, h as hasFileExtension } from './path_CPfUyqb6.mjs';
-import { m as matchPattern } from './remote_CrdlObHx.mjs';
-import { r as requestIs404Or500, i as isRequestServerIsland, n as notFound, a as normalizeTheLocale, b as redirectToFallback, c as redirectToDefaultLocale, d as requestHasLocale, e as defineMiddleware, S as SERVER_ISLAND_COMPONENT, f as SERVER_ISLAND_ROUTE, g as createEndpoint, R as RouteCache, s as sequence, h as findRouteToRewrite, v as validateAndDecodePathname, m as matchRoute, j as RenderContext, P as PERSIST_SYMBOL, k as getSetCookiesFromResponse } from './index_Bz-QOs4B.mjs';
-import { j as ROUTE_TYPE_HEADER, k as REROUTE_DIRECTIVE_HEADER, D as DEFAULT_404_COMPONENT, A as AstroError, l as ActionNotFoundError, s, n as clientAddressSymbol, L as LocalsNotAnObject, F as FailedToFindPageMapSSR, o as REROUTABLE_STATUS_CODES, p as responseSentSymbol } from './astro/server_DIoIlRSf.mjs';
-import { N as NOOP_MIDDLEWARE_FN } from './noop-middleware_C6lrJtzM.mjs';
-import { D as DEFAULT_404_ROUTE, d as default404Instance, e as ensure404Route } from './astro-designed-error-pages_PJJbK1Xj.mjs';
+import { r as requestIs404Or500, i as isRequestServerIsland, n as notFound, a as normalizeTheLocale, b as redirectToFallback, c as redirectToDefaultLocale, d as requestHasLocale, e as defineMiddleware, S as SERVER_ISLAND_COMPONENT, f as SERVER_ISLAND_ROUTE, g as createEndpoint, R as RouteCache, s as sequence, h as fileExtension, j as joinPaths, k as slash, p as prependForwardSlash, l as findRouteToRewrite, m as removeTrailingForwardSlash, v as validateAndDecodePathname, o as matchRoute, q as appendForwardSlash, t as isInternalPath, u as collapseDuplicateTrailingSlashes, w as hasFileExtension, x as RenderContext, P as PERSIST_SYMBOL, y as getSetCookiesFromResponse } from './index_BntxIWxD.mjs';
+import { j as ROUTE_TYPE_HEADER, k as REROUTE_DIRECTIVE_HEADER, D as DEFAULT_404_COMPONENT, A as AstroError, l as ActionNotFoundError, s, n as clientAddressSymbol, L as LocalsNotAnObject, F as FailedToFindPageMapSSR, o as REROUTABLE_STATUS_CODES, p as responseSentSymbol } from './astro/server_D6c3p7-M.mjs';
+import { N as NOOP_MIDDLEWARE_FN } from './noop-middleware_CVWVlhwe.mjs';
+import { D as DEFAULT_404_ROUTE, d as default404Instance, e as ensure404Route } from './astro-designed-error-pages_CQoBmA7J.mjs';
 import 'cloudflare:workers';
 
 function createI18nMiddleware(i18n, base, trailingSlash, format) {
@@ -292,6 +290,52 @@ const RedirectSinglePageBuiltModule = {
   onRequest: (_, next) => next(),
   renderers: []
 };
+
+function matchPattern(url, remotePattern) {
+  return matchProtocol(url, remotePattern.protocol) && matchHostname(url, remotePattern.hostname, true) && matchPort(url, remotePattern.port) && matchPathname(url, remotePattern.pathname, true);
+}
+function matchPort(url, port) {
+  return !port || port === url.port;
+}
+function matchProtocol(url, protocol) {
+  return !protocol || protocol === url.protocol.slice(0, -1);
+}
+function matchHostname(url, hostname, allowWildcard = false) {
+  if (!hostname) {
+    return true;
+  } else if (!allowWildcard || !hostname.startsWith("*")) {
+    return hostname === url.hostname;
+  } else if (hostname.startsWith("**.")) {
+    const slicedHostname = hostname.slice(2);
+    return slicedHostname !== url.hostname && url.hostname.endsWith(slicedHostname);
+  } else if (hostname.startsWith("*.")) {
+    const slicedHostname = hostname.slice(1);
+    if (!url.hostname.endsWith(slicedHostname)) {
+      return false;
+    }
+    const subdomainWithDot = url.hostname.slice(0, -(slicedHostname.length - 1));
+    return subdomainWithDot.endsWith(".") && !subdomainWithDot.slice(0, -1).includes(".");
+  }
+  return false;
+}
+function matchPathname(url, pathname, allowWildcard = false) {
+  if (!pathname) {
+    return true;
+  } else if (!allowWildcard || !pathname.endsWith("*")) {
+    return pathname === url.pathname;
+  } else if (pathname.endsWith("/**")) {
+    const slicedPathname = pathname.slice(0, -2);
+    return slicedPathname !== url.pathname && url.pathname.startsWith(slicedPathname);
+  } else if (pathname.endsWith("/*")) {
+    const slicedPathname = pathname.slice(0, -1);
+    if (!url.pathname.startsWith(slicedPathname)) {
+      return false;
+    }
+    const additionalPathChunks = url.pathname.slice(slicedPathname.length).split("/").filter(Boolean);
+    return additionalPathChunks.length === 1;
+  }
+  return false;
+}
 
 const dateTimeFormat = new Intl.DateTimeFormat([], {
   hour: "2-digit",
@@ -1164,6 +1208,11 @@ async function handle(manifest, app, request, env, context) {
     }
   }
   Reflect.set(request, Symbol.for("astro.clientAddress"), request.headers.get("cf-connecting-ip"));
+  process.env.ASTRO_STUDIO_APP_TOKEN ??= (() => {
+    if (typeof env.ASTRO_STUDIO_APP_TOKEN === "string") {
+      return env.ASTRO_STUDIO_APP_TOKEN;
+    }
+  })();
   const locals = {
     runtime: {
       env,

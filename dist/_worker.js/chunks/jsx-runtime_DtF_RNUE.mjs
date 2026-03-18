@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { b as requireReact } from './_@astro-renderers_jEiFjMJ7.mjs';
+import { b as requireReact } from './_@astro-renderers_BwPN5SeW.mjs';
 
 var jsxRuntime = {exports: {}};
 

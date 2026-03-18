@@ -1,5 +1,5 @@
 globalThis.process ??= {}; globalThis.process.env ??= {};
-import { d as createAstro, c as createComponent, m as maybeRenderHead, a as renderTemplate, b as addAttribute } from './astro/server_DIoIlRSf.mjs';
+import { d as createAstro, c as createComponent, m as maybeRenderHead, a as renderTemplate, b as addAttribute } from './astro/server_D6c3p7-M.mjs';
 /* empty css                                    */
 
 const BOOKING_CONTENT = {
