@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import supabase from '../../lib/supabase/client';
+
+const ADMIN_PASSWORD = 'JVC@ndBanyuhay2026';
 
 type AppointmentRow = {
   id: string;
@@ -43,31 +46,20 @@ export default function AdminAppointments() {
     });
   }, [appointments, query, statusFilter]);
 
-  async function loadData(adminPassword: string) {
+  async function loadData() {
     setIsLoading(true);
     setLoadError('');
     try {
-      const res = await fetch('/api/admin/appointments', {
-        headers: {
-          'x-admin-password': adminPassword,
-        },
-      });
+      const { data, error } = await supabase
+        .from('appointment_requests')
+        .select(
+          'id,created_at,customer_name,email,phone,pet_details,service_needed,branch,requested_datetime,status,notes,source_page',
+        )
+        .order('created_at', { ascending: false })
+        .limit(500);
 
-      if (res.status === 401) {
-        setPasswordError('Incorrect password');
-        setIsAuthenticated(false);
-        return;
-      }
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Request failed: ${res.status}`);
-      }
-
-      const json = (await res.json()) as { data?: AppointmentRow[]; error?: string };
-      if (json.error) throw new Error(json.error);
-      setAppointments(json.data ?? []);
-      setIsAuthenticated(true);
+      if (error) throw new Error(error.message);
+      setAppointments(data ?? []);
     } catch (e) {
       setLoadError(e instanceof Error ? e.message : 'Failed to load appointments');
     } finally {
@@ -78,32 +70,24 @@ export default function AdminAppointments() {
   const onLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError('');
-    await loadData(password);
+    if (password !== ADMIN_PASSWORD) {
+      setPasswordError('Incorrect password');
+      return;
+    }
+    setIsAuthenticated(true);
+    await loadData();
   };
 
   async function updateStatus(id: string, status: AppointmentRow['status']) {
     setUpdatingId(id);
     setLoadError('');
     try {
-      const res = await fetch(`/api/admin/appointments/${encodeURIComponent(id)}`, {
-        method: 'PATCH',
-        headers: {
-          'content-type': 'application/json',
-          'x-admin-password': password,
-        },
-        body: JSON.stringify({ status }),
-      });
+      const { error } = await supabase
+        .from('appointment_requests')
+        .update({ status })
+        .eq('id', id);
 
-      if (res.status === 401) {
-        setPasswordError('Incorrect password');
-        setIsAuthenticated(false);
-        return;
-      }
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Update failed: ${res.status}`);
-      }
-
+      if (error) throw new Error(error.message);
       setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
     } catch (e) {
       setLoadError(e instanceof Error ? e.message : 'Failed to update status');
@@ -114,7 +98,6 @@ export default function AdminAppointments() {
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    // keep view fresh if the admin refreshes via manual reload
   }, [isAuthenticated]);
 
   if (!isAuthenticated) {
@@ -162,7 +145,7 @@ export default function AdminAppointments() {
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={() => loadData(password)}
+              onClick={() => loadData()}
               disabled={isLoading}
               className="text-sm bg-white/10 hover:bg-white/15 px-3 py-2 rounded-lg disabled:opacity-60"
             >
@@ -272,4 +255,3 @@ export default function AdminAppointments() {
     </div>
   );
 }
-

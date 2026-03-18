@@ -26,7 +26,7 @@ const bookingStatus = Astro.url.searchParams.get('booking');
       )
     }
 
-    <form class="booking-form" action="/api/appointments" method="POST">
+    <form class="booking-form" id="booking-form">
       <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <div class="form-row two-col">
         <div class="form-group">
@@ -74,8 +74,86 @@ const bookingStatus = Astro.url.searchParams.get('booking');
         <input type="datetime-local" id="datetime" name="datetime" required />
       </div>
 
-      <button type="submit" class="submit-btn">Submit Request</button>
+      <button type="submit" class="submit-btn" id="booking-submit-btn">Submit Request</button>
     </form>
+
+    <script>
+      import supabase from '../../../lib/supabase/client';
+
+      const form = document.getElementById('booking-form') as HTMLFormElement;
+      const submitBtn = document.getElementById('booking-submit-btn') as HTMLButtonElement;
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const fd = new FormData(form);
+        if (fd.get('website')) return;
+
+        const name = (fd.get('name') as string)?.trim();
+        const pet = (fd.get('pet') as string)?.trim();
+        const phone = (fd.get('phone') as string)?.trim();
+        const email = (fd.get('email') as string)?.trim() || '';
+        const service = (fd.get('service') as string)?.trim();
+        const branch = (fd.get('branch') as string)?.trim();
+        const datetimeRaw = (fd.get('datetime') as string)?.trim();
+
+        if (!name || !pet || !phone || !service || !branch || !datetimeRaw) {
+          showAlert('error');
+          return;
+        }
+
+        const requestedDatetime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(datetimeRaw)
+          ? `${datetimeRaw}:00+08:00`
+          : datetimeRaw;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting…';
+
+        try {
+          const { error } = await supabase.from('appointment_requests').insert({
+            customer_name: name,
+            email,
+            phone,
+            pet_details: pet,
+            service_needed: service,
+            branch,
+            requested_datetime: requestedDatetime,
+            status: 'new',
+            source_page: window.location.pathname,
+            user_agent: navigator.userAgent,
+          });
+
+          if (error) throw error;
+          form.reset();
+          showAlert('success');
+        } catch {
+          showAlert('error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Request';
+        }
+      });
+
+      function showAlert(type: 'success' | 'error') {
+        const existing = form.parentElement?.querySelectorAll('.form-alert');
+        existing?.forEach((el) => el.remove());
+
+        const div = document.createElement('div');
+        div.className = `form-alert form-alert-${type}`;
+        div.setAttribute('role', type === 'success' ? 'status' : 'alert');
+        div.textContent =
+          type === 'success'
+            ? "Thanks! We received your request. We'll call you within 24 hours to confirm."
+            : 'Something went wrong. Please check the form and try again.';
+
+        form.parentElement?.insertBefore(div, form);
+        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        if (type === 'success') {
+          setTimeout(() => div.remove(), 8000);
+        }
+      }
+    </script>
   </div>
 </section>
 
