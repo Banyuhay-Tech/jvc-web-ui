@@ -3,6 +3,7 @@ import { NAV_LINKS, LOGO_URL, COLORS } from '../../constants';
 import Button from '../ui/Button.astro';
 
 const currentPath = Astro.url.pathname;
+const MESSENGER_URL = 'https://www.messenger.com/t/2009347542683443';
 ---
 
 <nav class="sticky top-0 z-50 bg-white shadow-md font-sans animate-slide-down">
@@ -35,7 +36,7 @@ const currentPath = Astro.url.pathname;
           );
         })}
         <div class="ml-4">
-          <Button variant="primary" href="/#book-appointment" className="shadow-md" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
+          <Button variant="primary" href={MESSENGER_URL} className="shadow-md" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
         </div>
       </div>
 
@@ -65,7 +66,7 @@ const currentPath = Astro.url.pathname;
         </a>
       ))}
       <div class="pt-4">
-        <Button variant="primary" href="/#book-appointment" className="w-full" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
+        <Button variant="primary" href={MESSENGER_URL} className="w-full" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
       </div>
     </div>
   </div>
