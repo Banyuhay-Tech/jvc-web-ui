@@ -1,9 +1,40 @@
 ---
-import { NAV_LINKS, LOGO_URL, COLORS } from '../../constants';
+import { NAV_LINKS, LOGO_URL, COLORS, MESSENGER_URL } from '../../constants';
+import type { NavLink } from '../../constants';
 import Button from '../ui/Button.astro';
 
 const currentPath = Astro.url.pathname;
-const MESSENGER_URL = 'https://www.messenger.com/t/2009347542683443';
+const currentHash = Astro.url.hash.replace('#', '');
+
+const linkClass = (active: boolean) =>
+  `nav-link px-4 py-2 text-sm font-semibold rounded-md whitespace-nowrap transition-colors duration-200 ${
+    active ? 'nav-link-active' : 'nav-link-inactive'
+  }`;
+
+const mobileLinkClass = (active: boolean) =>
+  `nav-link block px-4 py-3 text-base font-medium rounded-lg transition-colors duration-200 ${
+    active ? 'nav-link-active' : 'nav-link-inactive'
+  }`;
+
+function isLinkActive(link: NavLink): boolean {
+  if (link.id === 'our-services') {
+    return currentPath === '/' && (currentHash === 'our-services' || currentHash === 'advanced-surgical-care');
+  }
+  if (link.href === '/') {
+    return currentPath === '/' && !currentHash;
+  }
+  if (link.href.startsWith('/#')) {
+    return currentPath === '/' && currentHash === link.href.slice(2);
+  }
+  return currentPath === link.href || currentPath.startsWith(`${link.href}/`);
+}
+
+function isChildActive(href: string): boolean {
+  if (href.startsWith('/#')) {
+    return currentPath === '/' && currentHash === href.slice(2);
+  }
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+}
 ---
 
 <nav class="sticky top-0 z-50 bg-white shadow-md font-sans animate-slide-down">
@@ -21,22 +52,42 @@ const MESSENGER_URL = 'https://www.messenger.com/t/2009347542683443';
 
       <div class="hidden lg:flex items-center gap-1">
         {NAV_LINKS.map((link) => {
-          const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+          const isActive = isLinkActive(link);
+          if (link.children) {
+            return (
+              <div class="relative group">
+                <a href={link.href} class={`${linkClass(isActive)} inline-flex items-center gap-1`} data-nav-id={link.id}>
+                  {link.name}
+                  <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+                <div class="absolute left-0 top-full pt-1 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto transition-all duration-200">
+                  <div class="bg-white rounded-md shadow-lg border border-gray-100 py-1 min-w-[220px]">
+                    {link.children.map((child) => (
+                      <a
+                        href={child.href}
+                        class={`nav-link block px-4 py-2 text-sm font-semibold transition-colors duration-200 ${
+                          isChildActive(child.href) ? 'nav-link-active' : 'nav-link-inactive'
+                        }`}
+                        data-nav-id="advanced-surgical-care"
+                      >
+                        {child.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
           return (
-            <a
-              href={link.href}
-              class={`px-4 py-2 text-sm font-semibold rounded-md whitespace-nowrap transition-all duration-200 ${
-                isActive
-                  ? 'text-jvc-primary'
-                  : 'text-gray-600 hover:text-jvc-primary hover:bg-gray-50 hover:-translate-y-[1px]'
-              }`}
-            >
+            <a href={link.href} class={linkClass(isActive)} data-nav-id={link.id}>
               {link.name}
             </a>
           );
         })}
         <div class="ml-4">
-          <Button variant="primary" href={MESSENGER_URL} className="shadow-md" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
+          <Button variant="primary" href={MESSENGER_URL} className="shadow-md" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Consultation</Button>
         </div>
       </div>
 
@@ -54,23 +105,37 @@ const MESSENGER_URL = 'https://www.messenger.com/t/2009347542683443';
   <div id="mobile-menu" class="lg:hidden bg-white border-t border-gray-100 hidden w-full shadow-lg">
     <div class="px-4 py-4 space-y-1">
       {NAV_LINKS.map((link) => (
-        <a
-          href={link.href}
-          class={`block px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 ${
-            currentPath === link.href
-              ? 'text-jvc-primary bg-gray-50 border border-gray-100'
-              : 'text-gray-700 hover:bg-gray-100 hover:-translate-y-[1px]'
-          }`}
-        >
-          {link.name}
-        </a>
+        <div>
+          <a href={link.href} class={mobileLinkClass(isLinkActive(link))} data-nav-id={link.id}>
+            {link.name}
+          </a>
+          {link.children?.map((child) => (
+            <a href={child.href} class={`${mobileLinkClass(isChildActive(child.href))} !py-2 !pl-8 text-sm`} data-nav-id="advanced-surgical-care">
+              {child.name}
+            </a>
+          ))}
+        </div>
       ))}
       <div class="pt-4">
-        <Button variant="primary" href={MESSENGER_URL} className="w-full" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Now</Button>
+        <Button variant="primary" href={MESSENGER_URL} className="w-full" style={{ backgroundColor: COLORS.green, color: 'white' }}>Book Consultation</Button>
       </div>
     </div>
   </div>
 </nav>
+
+<style>
+  .nav-link-inactive {
+    color: #6b7280;
+  }
+
+  .nav-link-inactive:hover {
+    color: #0a441e;
+  }
+
+  .nav-link-active {
+    color: #0a441e;
+  }
+</style>
 
 <script>
   const menuButton = document.getElementById('mobile-menu-button');
@@ -85,4 +150,55 @@ const MESSENGER_URL = 'https://www.messenger.com/t/2009347542683443';
       closeIcon.classList.toggle('hidden');
     });
   }
+
+  function setActiveNav(navId: string, childNavId: string | null = null) {
+    document.querySelectorAll<HTMLElement>('[data-nav-id]').forEach((link) => {
+      const id = link.dataset.navId ?? '';
+      const isActive = id === navId || (childNavId !== null && id === childNavId);
+      link.classList.toggle('nav-link-active', isActive);
+      link.classList.toggle('nav-link-inactive', !isActive);
+    });
+  }
+
+  function getActiveNavFromScroll(): { navId: string; childNavId: string | null } | null {
+    if (window.location.pathname !== '/') return null;
+
+    const offset = 120;
+    const scrollPos = window.scrollY + offset;
+    const visitUs = document.getElementById('visit-us');
+    const advancedCare = document.getElementById('advanced-surgical-care');
+    const ourServices = document.getElementById('our-services');
+
+    if (visitUs && scrollPos >= visitUs.offsetTop) {
+      return { navId: 'contact', childNavId: null };
+    }
+    if (advancedCare && scrollPos >= advancedCare.offsetTop) {
+      return { navId: 'our-services', childNavId: 'advanced-surgical-care' };
+    }
+    if (ourServices && scrollPos >= ourServices.offsetTop) {
+      return { navId: 'our-services', childNavId: null };
+    }
+
+    return { navId: 'home', childNavId: null };
+  }
+
+  function updateActiveNav() {
+    const scrollState = getActiveNavFromScroll();
+    if (scrollState) {
+      setActiveNav(scrollState.navId, scrollState.childNavId);
+      return;
+    }
+
+    if (window.location.pathname !== '/') return;
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'visit-us') setActiveNav('contact');
+    else if (hash === 'advanced-surgical-care') setActiveNav('our-services', 'advanced-surgical-care');
+    else if (hash === 'our-services') setActiveNav('our-services');
+    else if (window.location.pathname === '/') setActiveNav('home');
+  }
+
+  updateActiveNav();
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('hashchange', updateActiveNav);
 </script>

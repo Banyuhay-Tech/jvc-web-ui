@@ -1,44 +1,183 @@
 ---
-import { LOGO_URL, COLORS, QUICK_LINKS } from '../../constants';
+import { LOGO_URL, QUICK_LINKS } from '../../constants';
+
+const year = new Date().getFullYear();
 ---
 
-<footer class="footer-section text-white pt-12 pb-8" style={{ backgroundColor: COLORS.green, fontFamily: "'Montserrat', sans-serif" }}>
-  <div class="container mx-auto px-4 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
-      <div>
-        <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-          <img src={LOGO_URL} alt="Jamir Veterinary Clinic" class="h-10 w-auto" />
-          Jamir Veterinary Clinic
-        </h3>
-        <p class="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.9)' }}>
-          Compassionate care for pets and peace of mind for pet owners. Two branches in Kawit and Imus.
-        </p>
+<footer class="footer">
+  <div class="footer-accent" aria-hidden="true"></div>
+
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo-link">
+          <img src={LOGO_URL} alt="" class="footer-logo" width="40" height="40" />
+          <span class="footer-brand-name">Jamir Veterinary Clinic</span>
+        </a>
+        <p class="footer-tagline">Compassionate care in Kawit & Imus.</p>
       </div>
-      <div>
-        <h4 class="text-sm font-bold mb-4 uppercase tracking-wide" style={{ color: COLORS.yellow }}>Quick Links</h4>
-        <ul class="space-y-2" style={{ color: 'rgba(255,255,255,0.9)' }}>
+
+      <div class="footer-nav">
+        <ul class="footer-links">
           {QUICK_LINKS.map((item) => (
             <li>
-              <a href={item.href} class="hover:text-white transition-colors">{item.name}</a>
+              <a href={item.href} class="footer-link">{item.name}</a>
             </li>
           ))}
         </ul>
       </div>
-      <div>
-        <h4 class="text-sm font-bold mb-4 uppercase tracking-wide" style={{ color: COLORS.yellow }}>Contact</h4>
-        <p class="text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>Visit our Kawit or Imus branch for appointments and inquiries.</p>
-      </div>
     </div>
-    <div class="pt-6 text-center text-sm" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopWidth: '1px', color: 'rgba(255,255,255,0.8)' }}>
-      &copy; {new Date().getFullYear()} Jamir Veterinary Clinic. All rights reserved.
-    </div>
+
+    <p class="footer-copyright">&copy; {year} Jamir Veterinary Clinic. All rights reserved.</p>
   </div>
 </footer>
 
 <style>
-  .footer-section,
-  .footer-section h3,
-  .footer-section h4 {
+  .footer {
+    background: linear-gradient(180deg, #0a441e 0%, #083318 100%);
+    color: #ffffff;
     font-family: 'Montserrat', sans-serif;
+    padding: 0 1.25rem 1.75rem;
+    overflow-x: hidden;
+  }
+
+  .footer-accent {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #bb9313 30%, #d4a82a 50%, #bb9313 70%, transparent);
+    margin: 0 -1.25rem 1.75rem;
+  }
+
+  .footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      text-align: left;
+    }
+  }
+
+  .footer-brand {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .footer-brand {
+      width: auto;
+    }
+  }
+
+  .footer-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-logo-link {
+      justify-content: flex-start;
+    }
+  }
+
+  .footer-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .footer-brand-name {
+    font-family: 'Calistoga', serif;
+    font-size: 1.1rem;
+    line-height: 1.2;
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .footer-nav {
+      width: auto;
+      align-items: flex-end;
+    }
+  }
+
+  .footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .footer-links {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.5rem 1.25rem;
+      width: auto;
+    }
+  }
+
+  .footer-link {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    line-height: 1.4;
+  }
+
+  .footer-link:hover {
+    color: #bb9313;
+  }
+
+  .footer-link:focus-visible {
+    outline: 2px solid #bb9313;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .footer-copyright {
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+    text-align: center;
   }
 </style>

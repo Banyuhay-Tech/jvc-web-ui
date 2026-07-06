@@ -1,6 +1,6 @@
 export const HERO_CONTENT = {
-  title: "Jamir Veterinary Clinic",
-  subtitle: "Compassionate Care for Pets and Peace of Mind for Pet Owners",
+  title: "JAMIR VETERINARY CLINIC",
+  subtitle: "Loving Care, From Checkups to Advanced Surgery",
   description:
-    "Jamir Veterinary Clinic is your trusted partner in keeping your pets healthy, happy, and cared for. With two fully equipped branches in Kawit and Imus, we offer comprehensive veterinary services all delivered with kindness and professionalism.",
+    "Jamir Veterinary Clinic is your trusted partner for every stage of your pet's life. We combine a comprehensive range of routine veterinary services with advanced surgical capabilities in our clinic. Our compassionate team treats your furry family members like our own—keeping them happy, healthy, and always in safe, loving hands.",
 } as const;

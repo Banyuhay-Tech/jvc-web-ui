@@ -11,7 +11,7 @@ import { WhyChooseIcon } from '../../../components/ui/WhyChooseIcon';
 >
   <div class="container">
     <div class="header-group">
-      <span class="subtitle">Quality You Can Trust</span>
+      <span class="subtitle">{WHY_CHOOSE_CONTENT.subtitle}</span>
       <h2 id="why-choose-title" class="section-title">{WHY_CHOOSE_CONTENT.title}</h2>
       <div class="title-accent"></div>
     </div>
@@ -94,7 +94,7 @@ import { WhyChooseIcon } from '../../../components/ui/WhyChooseIcon';
 
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-bottom: 6rem;
   }
@@ -174,6 +174,12 @@ import { WhyChooseIcon } from '../../../components/ui/WhyChooseIcon';
     margin: 0 auto;
     color: #ffffff;
     text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 600px) {

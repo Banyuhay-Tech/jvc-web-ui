@@ -17,6 +17,7 @@ import {
 const iconMap: Record<string, LucideIcon> = {
   consultation: Stethoscope,
   surgery: Cross,
+  advancedSurgery: Bone,
   vaccination: Syringe,
   radiography: ScanLine,
   grooming: Scissors,

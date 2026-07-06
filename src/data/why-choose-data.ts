@@ -1,11 +1,11 @@
 export const WHY_CHOOSE_CONTENT = {
-  title: "Why Choose Jamir Veterinary Clinic?",
+  title: "Why Families Trust JVC",
+  subtitle: "From Vaccines to Advanced Care",
   bgImage: "/images/why-choose.png",
   footerText: "Your pet's health and happiness are our priority.",
   features: [
-    { text: "Family-friendly and pet-loving environment", iconName: 'heart' },
-    { text: "Experienced, gentle, and approachable veterinary team", iconName: 'stethoscope' },
-    { text: "Complete medical and wellness services under one roof", iconName: 'sparkles' },
-    { text: "Clean and comfortable clinics", iconName: 'building' },
+    { text: "Everyday Wellness & Expert Care", iconName: 'stethoscope' },
+    { text: "Safe and Comfortable, Always", iconName: 'building' },
+    { text: "A Warm, Loving Place to Recover", iconName: 'heart' },
   ],
 } as const;

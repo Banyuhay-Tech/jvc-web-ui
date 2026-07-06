@@ -1,5 +1,5 @@
 export const GALLERY_CONTENT = {
-  title: "Pet Gallery",
+  title: "Patient Recovery Gallery",
   description:
     "Meet some of our furry visitors! From grooming glow-ups to playful pet boarders, see the love and care we give to each animal.",
   icon: `<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -10,8 +10,20 @@ export const GALLERY_CONTENT = {
   </svg>`,
   images: [
     {
-      src: "/images/pet-gallery-1.png",
-      alt: "A fluffy white dog in a green sweater being cared for at the clinic",
+      src: "/images/bullet pet gallery.png",
+      alt: "Bullet, a corgi patient at Jamir Veterinary Clinic",
+    },
+    {
+      src: "/images/cha cha pet gallery.png",
+      alt: "Cha Cha, a fluffy dog being cared for at Jamir Veterinary Clinic",
+    },
+    {
+      src: "/images/Sasha pet gallry.png",
+      alt: "Sasha recovering comfortably with a protective cone after surgery",
+    },
+    {
+      src: "/images/temper pet gallery.png",
+      alt: "Temper, a puppy being examined and cared for at Jamir Veterinary Clinic",
     },
   ],
 } as const;

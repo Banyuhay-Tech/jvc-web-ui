@@ -14,11 +14,18 @@ export interface NavLink {
 
 export const NAV_LINKS: readonly NavLink[] = [
   { name: 'Home', id: 'home', href: '/' },
-  { name: 'Our Services', id: 'about', href: '/#our-services' },
+  {
+    name: 'Our Services',
+    id: 'our-services',
+    href: '/#our-services',
+    children: [{ name: 'Advanced Surgery Care', href: '/#advanced-surgical-care' }],
+  },
   { name: 'Contact Us', id: 'contact', href: '/#visit-us' },
 ];
 
 export const QUICK_LINKS = [
+  { name: 'Home', href: '/' },
   { name: 'Our Services', href: '/#our-services' },
+  { name: 'Advanced Surgery Care', href: '/#advanced-surgical-care' },
   { name: 'Contact Us', href: '/#visit-us' },
 ];

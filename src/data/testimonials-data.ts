@@ -1,29 +1,27 @@
 export const TESTIMONIALS_CONTENT = {
   header: {
-    title: "Happy Pets,\nHappier Owners",
+    title: "Happy Pets, Happier Owners",
     description:
-      "Don't just take it from us — hear it from pet parents who trust us with their furbabies. We're proud to be a clinic where pets feel at ease and owners feel confident.",
+      "Don't just take it from us — hear from the pet parents who trusted our surgical team with their pets' lives when it mattered most.",
   },
   reviews: [
     {
-      text: "Best veterinary clinic in Cavite. Kahit na maraming mas malalapit na vet samin, dito talaga namin dinadala pets namin kahit for vaccinations lang. Affordable and you can feel their passion for their job. Highly recommended.",
-      author: "Cristina G",
+      text: "5 stars is honestly not enough for this clinic. I'm incredibly grateful for the care and professionalism they showed when treating my dog. After receiving a very high quote from another clinic along with many suggested tests, I decided to seek a second opinion here. The vet carefully evaluated my dog, recommended only the necessary procedures, and successfully performed the surgery for about half the price I was previously quoted. What stood out the most was their honesty and genuine concern for my dog's well-being. They took the time to explain everything clearly and made sure my dog received the right treatment without unnecessary procedures. It's rare to find a vet who truly cares about both the animal and the owner. I'm so thankful I found this clinic. Highly, highly recommended",
+      shortText:
+        "5 stars isn't enough. They honestly evaluated my dog, recommended only what was needed, and performed successful surgery—with genuine care for both pet and owner. Highly, highly recommended.",
+      author: "Daryl Mercado",
     },
     {
-      text: "Sobrang thankful ako sa Jamir vet clinic dahil mabilis lang napagaling ang furbaby namin. Bukod sa magagaling at mababait sila Doc Rj at Doc Rex ganun din ang ibang mga staff nila. 💯 Tagal sa good service nila. Highly recommended itong Jamir Vet Clinic.",
-      author: "Shavina Candila",
-    },
-    {
-      text: "Highly recommended vet clinic! ⭐⭐⭐⭐⭐ Doctors and staff are very accommodating and friendly, especially Doc Ali.. she made sure to check everything with my dearest cat. Very caring and professional and really took her time with explanations and options. Thank you Doc for taking care of my beloved Sunday.. he is doing well now. If meron lang higher than 5 star binigay ko na. 😊💯 Will definitely come back here again for future visits.",
-      author: "Dithh Dith",
+      text: "Trusted vet clinic for our dogs. Thank you for taking care of our Chuchay. Highly recommended vet clinic. Staffs and doctors are so accommodating and friendly. Doctor explained everything regarding our dog's case. Thank you, JVC!",
+      shortText:
+        "Thank you for taking care of our Chuchay. Staff and doctors are so accommodating and friendly. Highly recommended!",
+      author: "Sharica Raissabelle Villaflore",
     },
     {
       text: "Our very trusted vet in Cavite! Very practical approach in vet care and realistic pricing for their services. I have nothing bad to say about this vet clinic. They operated on 2 of our furbabies and they are recovering well. Jino finished his eye enucleation due to trauma yesterday. Thank you, Jamir Vet!",
+      shortText:
+        "Our trusted vet in Cavite! They operated on 2 of our furbabies and they are recovering well. Thank you, Jamir Vet!",
       author: "Andrea Pardilla",
-    },
-    {
-      text: "Jamir Vet Clinic is one of the best vet clinics I've been to. The staff are very professional, kind, and genuinely care for animals. They treated my pet with patience and love, and explained the condition clearly so I could understand everything. The clinic is clean, organized, and the prices are affordable compared to other places.\n\nWhat really stood out was how they handled emergencies and follow-ups — they're responsive, easy to talk to, and make sure your pet gets the best care. Whether it's for checkups, vaccines, or treatment, I can say this clinic is trustworthy and reliable.\n\nThank you, Jamir Vet Clinic, for taking care of our fur babies! 🐾♥️",
-      author: "Justine Lopez",
     },
   ],
 } as const;

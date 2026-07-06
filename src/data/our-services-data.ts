@@ -1,6 +1,7 @@
 export type ServiceIconName =
   | 'consultation'
   | 'surgery'
+  | 'advancedSurgery'
   | 'vaccination'
   | 'radiography'
   | 'grooming'
@@ -21,6 +22,7 @@ export const SERVICES_CONTENT = {
       services: [
         { title: "Veterinary Consultation", iconName: 'consultation' as ServiceIconName },
         { title: "Surgery", iconName: 'surgery' as ServiceIconName },
+        { title: "Advanced Surgery Care", iconName: 'advancedSurgery' as ServiceIconName },
         { title: "Vaccination", iconName: 'vaccination' as ServiceIconName },
         { title: "Radiography\n(X-Ray)", iconName: 'radiography' as ServiceIconName },
         { title: "Grooming", iconName: 'grooming' as ServiceIconName },
@@ -37,6 +39,7 @@ export const SERVICES_CONTENT = {
         { title: "Veterinary Consultation", iconName: 'consultation' as ServiceIconName },
         { title: "Confinement", iconName: 'confinement' as ServiceIconName },
         { title: "Surgery", iconName: 'surgery' as ServiceIconName },
+        { title: "Advanced Surgery Care", iconName: 'advancedSurgery' as ServiceIconName },
         { title: "Vaccination", iconName: 'vaccination' as ServiceIconName },
         { title: "Laboratory Tests", iconName: 'laboratory' as ServiceIconName },
         { title: "Microscopy", iconName: 'microscopy' as ServiceIconName },

@@ -25,7 +25,8 @@ const cyclicReviews = [reviews[reviews.length - 1], ...reviews, reviews[0]];
               {cyclicReviews.map((review) => (
                 <div class="testimonial-slide">
                   <div class="testimonial-card">
-                    <p class="review-body">“{review.text}”</p>
+                    <p class="review-body review-body-full">“{review.text}”</p>
+                    <p class="review-body review-body-short">“{review.shortText}”</p>
                     <div class="author-area">
                       <span class="line"></span>
                       <p class="author-name">{review.author}</p>
@@ -60,7 +61,7 @@ const cyclicReviews = [reviews[reviews.length - 1], ...reviews, reviews[0]];
 
   .testimonials-section {
     background: var(--brand-green) url('/images/testimonial-bg.png') center/cover no-repeat;
-    padding: 4rem 1rem;
+    padding: 6rem 1.5rem;
     overflow: hidden; /* Critical for carousels */
     min-height: 600px;
     display: flex;
@@ -171,6 +172,34 @@ const cyclicReviews = [reviews[reviews.length - 1], ...reviews, reviews[0]];
     margin-bottom: 2rem;
   }
 
+  .review-body-short {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    .testimonials-section {
+      min-height: auto;
+      padding: 4rem 1rem;
+    }
+
+    .left-content { align-items: center; text-align: center; }
+    .section-description { max-width: 100%; }
+    .glass-outer-box { padding: 2rem 1rem; }
+
+    .review-body-full {
+      display: none;
+    }
+
+    .review-body-short {
+      display: block;
+    }
+
+    .testimonial-card {
+      min-height: auto;
+      padding: 2rem 1.5rem;
+    }
+  }
+
   .author-area {
     display: flex;
     align-items: center;
@@ -224,13 +253,6 @@ const cyclicReviews = [reviews[reviews.length - 1], ...reviews, reviews[0]];
     background: var(--brand-gold);
     width: 24px;
     border-radius: 4px;
-  }
-
-  /* MOBILE RESPONSIVENESS */
-  @media (max-width: 1023px) {
-    .left-content { align-items: center; text-align: center; }
-    .section-description { max-width: 100%; }
-    .glass-outer-box { padding: 2rem 1rem; }
   }
 </style>
 
