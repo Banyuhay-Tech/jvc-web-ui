@@ -50,5 +50,10 @@ This project expects these environment variables (do **not** commit them):
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
+- `WORKER_URL` (optional) — reviews snapshot API base ending in `/api/`. Empty uses curated fallback. Example: `https://jvc-reviews-snapshot.<account>.workers.dev/api/`
 
-For local development, create a `.env` file in the project root. For Cloudflare Pages, add them in your project’s environment variables / secrets.
+For local development, create a `.env` file in the project root (see `.env.example`). For Cloudflare Pages, add them in your project’s environment variables / secrets.
+
+## Google reviews (snapshot Worker)
+
+The homepage reviews section fetches `{WORKER_URL}reviews`. That endpoint **only reads a KV snapshot**. Google Places runs on a **daily cron** in `workers/reviews-snapshot` — not on page load. Setup steps: `workers/reviews-snapshot/README.md`. Replace `g.page/r/PLACEHOLDER/` in `src/data/reviews-content.ts` and Place IDs in the Worker vars when you have them.

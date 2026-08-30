@@ -4,7 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,4 +18,15 @@ export default defineConfig({
     }),
     sitemap(),
   ],
+  env: {
+    schema: {
+      /** Snapshot API base ending in /api/ — empty uses curated fallback */
+      WORKER_URL: envField.string({
+        context: 'server',
+        access: 'public',
+        optional: true,
+        default: '',
+      }),
+    },
+  },
 });

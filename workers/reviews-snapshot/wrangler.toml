@@ -1,0 +1,20 @@
+name = "jvc-reviews-snapshot"
+main = "src/index.ts"
+compatibility_date = "2026-03-12"
+
+# Daily snapshot refresh (UTC). Places is called only here — never on GET.
+[triggers]
+crons = ["0 6 * * *"]
+
+[[kv_namespaces]]
+binding = "REVIEWS_KV"
+# Replace after: wrangler kv namespace create REVIEWS_KV
+id = "00000000000000000000000000000000"
+preview_id = "00000000000000000000000000000000"
+
+[vars]
+# Comma-separated Place IDs (placeholders until real Kawit/Imus IDs are set)
+GOOGLE_PLACE_IDS = "PLACEHOLDER_KAWIT_PLACE_ID,PLACEHOLDER_IMUS_PLACE_ID"
+GOOGLE_PROFILE_URL = "https://share.google/6wtaPd4jZz852FC60"
+
+# Set secret: wrangler secret put GOOGLE_PLACES_API_KEY

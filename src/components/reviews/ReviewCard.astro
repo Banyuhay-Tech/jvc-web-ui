@@ -1,0 +1,156 @@
+---
+import type { Review } from "../../types/review.type";
+import StarScore from "./StarScore.astro";
+
+interface Props {
+  review: Review;
+}
+
+const { review } = Astro.props;
+const initial = review.name.trim().charAt(0).toUpperCase() || "?";
+const sourceLabel = review.source === "facebook" ? "Facebook" : "Google";
+---
+
+<article class="review-card">
+  <div class="card-header">
+    {review.avatar ? (
+      <img
+        class="avatar"
+        src={review.avatar}
+        alt=""
+        width="44"
+        height="44"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <span class="avatar avatar-fallback" aria-hidden="true">{initial}</span>
+    )}
+    <div class="meta">
+      <h3 class="author">{review.name}</h3>
+      <p class="date">{review.date}</p>
+    </div>
+  </div>
+
+  <StarScore score={review.rating} />
+
+  <p class="body">{review.review}</p>
+
+  <div class="source-row">
+    <img
+      src={review.source === "facebook" ? "/images/brand-facebook.svg" : "/images/brand-google.svg"}
+      alt=""
+      width="20"
+      height="20"
+      loading="lazy"
+    />
+    <div class="source-text">
+      <span class="posted">Posted on</span>
+      {review.url ? (
+        <a href={review.url} target="_blank" rel="noopener noreferrer" class="source-link">
+          {sourceLabel}
+        </a>
+      ) : (
+        <span class="source-link">{sourceLabel}</span>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    background: #f3f3f3;
+    border-radius: 1.25rem;
+    padding: 1.35rem 1.25rem;
+    height: 100%;
+    min-height: 16rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .avatar-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a441e;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .meta {
+    min-width: 0;
+  }
+
+  .author {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .date {
+    margin: 0.15rem 0 0;
+    font-size: 0.8rem;
+    color: #777;
+  }
+
+  .body {
+    margin: 0;
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .source-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .source-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .posted {
+    font-size: 0.7rem;
+    color: #888;
+  }
+
+  .source-link {
+    font-size: 0.85rem;
+    color: #1877f2;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .source-link:hover {
+    text-decoration: underline;
+  }
+</style>

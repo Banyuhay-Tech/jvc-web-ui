@@ -2,4 +2,8 @@ node_modules
 dist
 .env
 .env.*
+!.env.example
 .dev.vars
+workers/**/.dev.vars
+workers/**/node_modules
+workers/**/.wrangler

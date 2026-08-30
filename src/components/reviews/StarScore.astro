@@ -1,0 +1,65 @@
+---
+interface Props {
+  score: number;
+  class?: string;
+}
+
+const { score, class: className = "" } = Astro.props;
+const clamped = Math.max(0, Math.min(5, score));
+const STAR_PATH =
+  "M12 2.5l2.9 5.88 6.5.95-4.7 4.58 1.11 6.47L12 17.77 6.19 20.38l1.11-6.47-4.7-4.58 6.5-.95L12 2.5z";
+---
+
+<div class={`star-score ${className}`} aria-label={`${clamped} out of 5 stars`}>
+  {Array.from({ length: 5 }).map((_, i) => {
+    const fill = Math.max(0, Math.min(1, clamped - i));
+    const pct = Math.round(fill * 100);
+    return (
+      <span class="star-slot" aria-hidden="true">
+        <svg class="star-svg" viewBox="0 0 24 24" width="16" height="16">
+          <path class="star-bg" d={STAR_PATH} />
+        </svg>
+        <span class="star-fill" style={`width:${pct}%`}>
+          <svg class="star-svg" viewBox="0 0 24 24" width="16" height="16">
+            <path class="star-fg" d={STAR_PATH} />
+          </svg>
+        </span>
+      </span>
+    );
+  })}
+</div>
+
+<style>
+  .star-score {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.12rem;
+    line-height: 1;
+  }
+
+  .star-slot {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .star-svg {
+    display: block;
+  }
+
+  .star-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    overflow: hidden;
+  }
+
+  .star-bg {
+    fill: #d8d8d8;
+  }
+
+  .star-fg {
+    fill: #fbb622;
+  }
+</style>
