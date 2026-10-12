@@ -1,0 +1,460 @@
+---
+import HomeLayout from '../../layouts/HomeLayout.astro';
+import {
+  SURGERY_CASES_CONTENT,
+  getCaseMediaSlots,
+} from '../../data/surgery-cases-data';
+
+const { title, intro, clinicalNotice, categories } = SURGERY_CASES_CONTENT;
+---
+
+<HomeLayout
+  title="Surgery Cases - Jamir Veterinary Clinic"
+  description="Featured surgical cases and patient recoveries from Jamir Veterinary Clinic."
+>
+  <div class="surgery-cases-page">
+    <header class="page-header">
+      <div class="container">
+        <h1 class="page-title">{title}</h1>
+        <div class="accent-line"></div>
+        <p class="page-intro">{intro}</p>
+      </div>
+    </header>
+
+    <section class="cases-section" aria-label="Surgery case categories">
+      <div class="container">
+        <p class="section-notice">{clinicalNotice}</p>
+
+        <div class="categories">
+          {categories.map((category) => (
+            <div class="category-block">
+              <h2 class="category-title">{category.title}</h2>
+              <div class="accordion" data-accordion>
+                {category.cases.map((surgeryCase) => {
+                  const panelId = `panel-${surgeryCase.id}`;
+                  const buttonId = `btn-${surgeryCase.id}`;
+                  const mediaSlots = getCaseMediaSlots(surgeryCase);
+
+                  return (
+                    <div class="accordion-item" data-accordion-item>
+                      <h3 class="accordion-heading">
+                        <button
+                          type="button"
+                          id={buttonId}
+                          class="accordion-trigger"
+                          aria-expanded="false"
+                          aria-controls={panelId}
+                          data-accordion-trigger
+                        >
+                          <span class="trigger-main">
+                            <span class="surgery-name">{surgeryCase.name}</span>
+                            <span class="patient-group" aria-label={`Patients: ${surgeryCase.patients.join(', ')}`}>
+                              {surgeryCase.patients.map((patient) => (
+                                <span class="patient-pill">{patient}</span>
+                              ))}
+                            </span>
+                          </span>
+                          <span class="trigger-icon" aria-hidden="true">
+                            <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+                            </svg>
+                          </span>
+                        </button>
+                      </h3>
+                      <div
+                        id={panelId}
+                        class="accordion-panel"
+                        role="region"
+                        aria-labelledby={buttonId}
+                        aria-hidden="true"
+                        data-accordion-panel
+                      >
+                        <div class="panel-inner">
+                          <div class="case-media">
+                            <div class="photo-grid" role="list" aria-label={`Clinical photos for ${surgeryCase.name}`}>
+                              {mediaSlots.map((slot, index) => (
+                                <figure class="photo-item" role="listitem">
+                                  {slot.src ? (
+                                    <img
+                                      src={encodeURI(slot.src)}
+                                      alt={slot.alt}
+                                      class="case-photo"
+                                      loading="lazy"
+                                      width="640"
+                                      height="480"
+                                    />
+                                  ) : (
+                                    <div class="image-placeholder" aria-label={slot.alt}>
+                                      <span class="placeholder-text">Photo {index + 1}</span>
+                                    </div>
+                                  )}
+                                  {slot.patient && (
+                                    <figcaption class="photo-caption">{slot.patient}</figcaption>
+                                  )}
+                                </figure>
+                              ))}
+                            </div>
+                            <p class="case-notice">{clinicalNotice}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</HomeLayout>
+
+<style>
+  :root {
+    --color-green: #0a441e;
+    --color-gold: #bb9313;
+    --color-text: #333333;
+    --color-muted: #6b7280;
+    --color-pill-bg: #eef2f6;
+    --color-pill-text: #4b6280;
+    --color-light: #f9f9f9;
+    --color-border: #e5e7eb;
+    --color-white: #ffffff;
+    --transition-panel: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .surgery-cases-page {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .page-header {
+    background-color: var(--color-green);
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    text-align: center;
+    color: white;
+  }
+
+  .page-title {
+    font-family: 'Calistoga', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 0 0 1rem;
+    font-weight: 800;
+  }
+
+  .accent-line {
+    width: 80px;
+    height: 4px;
+    background-color: var(--color-gold);
+    margin: 0 auto 1.25rem;
+    border-radius: 2px;
+  }
+
+  .page-intro {
+    margin: 0 auto;
+    max-width: 36rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .cases-section {
+    padding: clamp(2.5rem, 5vw, 4.5rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+    background-color: var(--color-light);
+  }
+
+  .section-notice {
+    margin: 0 0 2.5rem;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+    background: var(--color-white);
+    border-left: 3px solid var(--color-gold);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .categories {
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+  }
+
+  .category-title {
+    font-family: 'Calistoga', serif;
+    font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+    color: var(--color-green);
+    margin: 0 0 1rem;
+    font-weight: 400;
+  }
+
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .accordion-item {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .accordion-item.is-open {
+    border-color: rgba(10, 68, 30, 0.35);
+    box-shadow: 0 4px 16px rgba(10, 68, 30, 0.06);
+  }
+
+  .accordion-heading {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 3.5rem;
+    padding: 0.95rem 1.1rem;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    font-family: inherit;
+    line-height: 1.4;
+    transition: background-color 0.2s ease;
+  }
+
+  .accordion-trigger:hover {
+    background-color: rgba(10, 68, 30, 0.04);
+  }
+
+  .accordion-trigger:hover .surgery-name {
+    color: var(--color-green);
+  }
+
+  .accordion-trigger:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: -2px;
+  }
+
+  .trigger-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .surgery-name {
+    flex: 1 1 12rem;
+    min-width: 0;
+    font-size: clamp(1rem, 2.4vw, 1.12rem);
+    font-weight: 800;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+  }
+
+  .patient-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    margin-left: auto;
+  }
+
+  .patient-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--color-pill-bg);
+    color: var(--color-pill-text);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .trigger-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 999px;
+    background: rgba(10, 68, 30, 0.08);
+    color: var(--color-green);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .icon-plus {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--transition-panel);
+  }
+
+  .accordion-item.is-open .trigger-icon {
+    background: var(--color-green);
+    color: white;
+  }
+
+  .accordion-item.is-open .icon-plus {
+    transform: rotate(45deg);
+  }
+
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--transition-panel);
+  }
+
+  .accordion-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .case-media {
+    padding: 0 1.1rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .photo-item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .case-photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    background: var(--color-pill-bg);
+    display: block;
+  }
+
+  .image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      rgba(10, 68, 30, 0.08) 0%,
+      rgba(187, 147, 19, 0.12) 100%
+    );
+    border: 1px dashed rgba(10, 68, 30, 0.2);
+  }
+
+  .placeholder-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .photo-caption {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-pill-text);
+    text-align: center;
+  }
+
+  .case-notice {
+    margin: 0.85rem 0 0;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 560px) {
+    .photo-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 860px) {
+    .photo-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .accordion-trigger {
+      padding: 0.85rem 0.95rem;
+      align-items: flex-start;
+    }
+
+    .trigger-main {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .patient-group {
+      justify-content: flex-start;
+      margin-left: 0;
+    }
+
+    .trigger-icon {
+      margin-top: 0.15rem;
+    }
+
+    .case-media {
+      padding: 0 0.95rem 1.1rem;
+    }
+  }
+</style>
+
+<script>
+  function initAccordions() {
+    document.querySelectorAll<HTMLElement>('[data-accordion-trigger]').forEach((trigger) => {
+      if (trigger.dataset.bound === 'true') return;
+      trigger.dataset.bound = 'true';
+
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest<HTMLElement>('[data-accordion-item]');
+        const panel = item?.querySelector<HTMLElement>('[data-accordion-panel]');
+        if (!item || !panel) return;
+
+        const nextOpen = trigger.getAttribute('aria-expanded') !== 'true';
+
+        trigger.setAttribute('aria-expanded', String(nextOpen));
+        item.classList.toggle('is-open', nextOpen);
+        panel.classList.toggle('is-open', nextOpen);
+        panel.setAttribute('aria-hidden', String(!nextOpen));
+      });
+    });
+  }
+
+  initAccordions();
+  document.addEventListener('astro:page-load', initAccordions);
+</script>

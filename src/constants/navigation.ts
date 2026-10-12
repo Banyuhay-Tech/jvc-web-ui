@@ -20,6 +20,7 @@ export const NAV_LINKS: readonly NavLink[] = [
     href: '/#our-services',
     children: [{ name: 'Advanced Surgery Care', href: '/#advanced-surgical-care' }],
   },
+  { name: 'Surgery Cases', id: 'surgery-cases', href: '/surgery-cases' },
   { name: 'Contact Us', id: 'contact', href: '/#visit-us' },
 ];
 
