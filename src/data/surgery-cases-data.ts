@@ -173,23 +173,23 @@ export const SURGERY_CASES_CONTENT = {
       title: 'Dental & Ear Procedures (ENT)',
       cases: [
         {
-          id: 'dental-prophylaxis',
-          name: 'Dental Prophylaxis',
+          id: 'dental-extraction',
+          name: 'Dental Extraction',
           patients: ['Cholo', 'Kisses', 'Harith', 'Mimi', 'Meera', 'Moja'],
           images: [
             {
               src: `${DENTAL_DIR}/Kisses.jpg`,
-              alt: 'Dental Prophylaxis clinical photo — patient Kisses',
+              alt: 'Dental Extraction clinical photo — patient Kisses',
               patient: 'Kisses',
             },
             {
               src: `${DENTAL_DIR}/Harith.jpg`,
-              alt: 'Dental Prophylaxis clinical photo — patient Harith',
+              alt: 'Dental Extraction clinical photo — patient Harith',
               patient: 'Harith',
             },
             {
               src: `${DENTAL_DIR}/Moja.jpg`,
-              alt: 'Dental Prophylaxis clinical photo — patient Moja',
+              alt: 'Dental Extraction clinical photo — patient Moja',
               patient: 'Moja',
             },
           ],
