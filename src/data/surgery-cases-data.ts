@@ -35,7 +35,6 @@ const OVH_DIR = '/images/Surgery Cases/Routine Ovariohysterectomy';
 const TUMOR_DIR = '/images/Surgery Cases/Tumor  Mass Removal & Mastectomy';
 const SPLENECTOMY_DIR = '/images/Surgery Cases/Splenectomy';
 const DENTAL_DIR = '/images/Surgery Cases/Dental Prophylaxis';
-const HEMATOMA_DIR = '/images/Surgery Cases/Aural Hematoma Repair';
 const POLYP_DIR = '/images/Surgery Cases/Aural Polyp Removal';
 const TAIL_DIR = '/images/Surgery Cases/Tail Amputation';
 
@@ -191,28 +190,6 @@ export const SURGERY_CASES_CONTENT = {
               src: `${DENTAL_DIR}/Moja.jpg`,
               alt: 'Dental Extraction clinical photo — patient Moja',
               patient: 'Moja',
-            },
-          ],
-        },
-        {
-          id: 'aural-hematoma',
-          name: 'Hematoma Repair',
-          patients: ['Lilithe', 'Luna'],
-          images: [
-            {
-              src: `${HEMATOMA_DIR}/Lilithe.jpg`,
-              alt: 'Hematoma Repair clinical photo — patient Lilithe',
-              patient: 'Lilithe',
-            },
-            {
-              src: `${HEMATOMA_DIR}/Luna.jpg`,
-              alt: 'Hematoma Repair clinical photo — patient Luna',
-              patient: 'Luna',
-            },
-            {
-              src: `${HEMATOMA_DIR}/Luna 2.jpg`,
-              alt: 'Hematoma Repair clinical photo — patient Luna',
-              patient: 'Luna',
             },
           ],
         },
